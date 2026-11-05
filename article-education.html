@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>AI and architectural education: a paradigm shift | LAAI</title>
+<meta name="description" content="AI is changing the roles of student, professor and tool in the architecture studio. What the data says, the open tensions, and what schools could do now. By Lavinia Lorena Jilavu.">
+<meta name="author" content="Lavinia Lorena Jilavu">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AI and architectural education: a paradigm shift">
+<meta property="og:description" content="AI is changing the roles of student, professor and tool in the architecture studio, and what schools could do now.">
+<meta property="article:published_time" content="2026-11-05">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap">
+<style>
+/* Layout: one drawing sheet in the LAAI set. A single reading column near 66ch, with a sheet header and a title block for the byline. */
+:root {
+  --sheet: #f2f3ef; --panel: #fafaf8; --ink: #16181a; --ink-2: #464a48; --ink-3: #676b68;
+  --line: #d2d5cf; --grid: rgba(22, 24, 26, .045);
+  --violet: #5b3fe0; --muted-bar: #b9bdb6;
+  --display: "Newsreader", Georgia, "Times New Roman", serif;
+  --body: "Geist", "Helvetica Neue", Arial, sans-serif;
+  --mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --r: 6px;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --sheet: #111312; --panel: #181b19; --ink: #eceee9; --ink-2: #bcc0ba; --ink-3: #959a94;
+    --line: #2d312e; --grid: rgba(236, 238, 233, .04); --violet: #a897ff; --muted-bar: #4a4f4b;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --sheet: #111312; --panel: #181b19; --ink: #eceee9; --ink-2: #bcc0ba; --ink-3: #959a94;
+  --line: #2d312e; --grid: rgba(236, 238, 233, .04); --violet: #a897ff; --muted-bar: #4a4f4b;
+  color-scheme: dark;
+}
+:root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--sheet); color: var(--ink); font: 400 17px/1.7 var(--body); -webkit-font-smoothing: antialiased; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--violet); outline-offset: 3px; border-radius: 2px; }
+h1, h2 { margin: 0; text-wrap: balance; }
+p, li { text-wrap: pretty; }
+.wrap { max-width: 760px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+@media (min-width: 760px) { .wrap { padding-left: max(32px, env(safe-area-inset-left, 0px)); padding-right: max(32px, env(safe-area-inset-right, 0px)); } }
+.label { font: 500 12px/1.3 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); }
+
+.top { border-bottom: 1px solid var(--line); }
+.top .wrap { max-width: 1224px; display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 64px; }
+.brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; font: 600 18px/1 var(--body); }
+.brand em { font-style: normal; color: var(--violet); }
+.logo { width: 26px; height: 26px; }
+.logo .f { fill: var(--violet); } .logo .s { fill: none; stroke: var(--violet); stroke-width: 1.6; }
+.back { font: 500 13px/1 var(--mono); color: var(--ink-2); text-decoration: none; padding: 10px 0; }
+.back:hover { color: var(--ink); }
+
+.head { padding-block: 56px 0; background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px); background-size: 36px 36px; border-bottom: 1px solid var(--line); }
+.sheet-no { display: flex; align-items: center; gap: 12px; margin-bottom: 22px; }
+.sheet-no b { font: 500 12px/1 var(--mono); letter-spacing: .08em; padding: 6px 8px; border: 1px solid var(--ink); border-radius: 3px; }
+h1 { font: 400 clamp(38px, 6vw, 62px)/1.05 var(--display); letter-spacing: -.025em; }
+h1 em { font-style: normal; color: var(--violet); }
+.standfirst { margin-top: 20px; font-size: 20px; line-height: 1.55; color: var(--ink-2); }
+.tblock { margin-top: 40px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: 1px solid var(--ink); border-bottom: 0; background: var(--panel); }
+.tblock div { padding: 12px 14px 14px; border-bottom: 1px solid var(--ink); border-right: 1px solid var(--line); min-width: 0; }
+.tblock div:last-child { border-right: 0; }
+.tblock dt { font: 500 10.5px/1.3 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 6px; }
+.tblock dd { margin: 0; font-size: 14.5px; line-height: 1.35; font-weight: 500; }
+@media (max-width: 520px) { .tblock { grid-template-columns: 1fr 1fr; } .tblock div:first-child { grid-column: 1 / -1; border-right: 0; } }
+
+article { padding-block: 48px 72px; }
+article > * + * { margin-top: 1.1em; }
+article h2 { margin-top: 2.2em; font: 400 32px/1.15 var(--display); letter-spacing: -.015em; }
+article h2 + p { margin-top: .7em; }
+article p { margin-bottom: 0; color: var(--ink-2); }
+article p strong, article li strong { color: var(--ink); font-weight: 600; }
+article a { color: var(--violet); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+article ul { padding-left: 0; list-style: none; display: grid; gap: 14px; }
+article ul li { position: relative; padding: 16px 18px 16px 20px; border: 1px solid var(--line); border-left: 3px solid var(--ink); border-radius: 3px; background: var(--panel); color: var(--ink-2); font-size: 16px; }
+.pull { margin-block: 1.6em; padding: 4px 0 4px 22px; border-left: 2px solid var(--violet); font: 400 italic 25px/1.4 var(--display); color: var(--ink); }
+.quote { margin-block: 1.6em 0; padding: 22px 24px; border: 1px solid var(--line); border-radius: var(--r); background: var(--panel); }
+.quote p { font: 400 italic 22px/1.45 var(--display); color: var(--ink); margin: 0; }
+.quote cite { display: block; margin-top: 12px; font: 400 12.5px/1.4 var(--mono); font-style: normal; color: var(--ink-3); }
+
+figure.chart { margin: 1.8em 0; padding: 24px; border: 1px solid var(--line); border-radius: var(--r); background: var(--panel); }
+.chart h3 { margin: 0; font: 600 16px/1.35 var(--body); }
+.chart .sub { margin-top: 2px; font-size: 13.5px; color: var(--ink-3); }
+.group { margin-top: 20px; display: grid; gap: 10px; }
+.group > .label { font-size: 10.5px; }
+.bar { display: grid; grid-template-columns: minmax(0, 190px) minmax(0, 1fr); gap: 14px; align-items: center; font-size: 14px; }
+.bar > span { color: var(--ink); }
+.track { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.fill { height: 18px; border-radius: 2px; background: var(--muted-bar); flex: none; }
+.fill.gov { background: var(--violet); }
+.track b { font: 600 13.5px/1 var(--body); font-variant-numeric: tabular-nums; }
+@media (max-width: 560px) { .bar { grid-template-columns: 1fr; gap: 4px; } }
+.chart figcaption { margin-top: 18px; padding-top: 12px; border-top: 1px dashed var(--line); font: 400 12px/1.5 var(--mono); color: var(--ink-3); }
+
+.sources { padding-block: 32px 24px; border-top: 1px solid var(--line); }
+.sources ol { margin: 14px 0 0; padding-left: 22px; display: grid; gap: 6px; font: 400 13px/1.5 var(--mono); color: var(--ink-3); }
+.sources a { color: var(--ink-2); }
+.next { margin-block: 16px 64px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding: 24px; border-radius: var(--r); background: var(--ink); color: var(--sheet); }
+.next p { margin: 0; font: 400 22px/1.3 var(--display); max-width: 30ch; }
+.btn { display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: 999px; background: var(--sheet); color: var(--ink); font: 500 15px/1 var(--body); text-decoration: none; }
+
+/* R-02: studio roles diagram, paradigm table, action list */
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+figure.roles { margin: 1.8em 0; padding: 24px; border: 1px solid var(--line); border-radius: var(--r); background: var(--panel); display: grid; gap: 22px; }
+.roles h3 { margin: 0; font: 600 16px/1.35 var(--body); }
+.roles-row { display: grid; gap: 10px; }
+.flow { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; counter-reset: none; }
+.flow li { position: relative; display: grid; gap: 2px; align-content: start; padding: 12px 14px; border: 1px solid var(--ink-3); border-radius: 4px; background: var(--sheet); font-size: 14px; color: var(--ink-2); }
+.flow li b { font-size: 15px; color: var(--ink); }
+.flow li + li::before { content: "→"; position: absolute; left: -22px; top: 50%; transform: translateY(-50%); font: 400 15px/1 var(--mono); color: var(--ink-3); }
+.flow.two-way li:nth-child(2)::before { content: "⇄"; }
+.flow li.ai { border: 2px solid var(--violet); background: color-mix(in srgb, var(--violet) 9%, var(--sheet)); }
+.loop { margin: 0; font: 400 12.5px/1.5 var(--mono); color: var(--ink-3); }
+@media (max-width: 560px) { .flow { grid-template-columns: 1fr; gap: 22px; } .flow li + li::before { left: 50%; top: -18px; transform: translateX(-50%) rotate(90deg); } }
+.roles figcaption { padding-top: 12px; border-top: 1px dashed var(--line); font: 400 12px/1.5 var(--mono); color: var(--ink-3); }
+.shift-wrap { overflow-x: auto; margin-top: 1.2em; border: 1px solid var(--line); border-radius: var(--r); background: var(--panel); }
+table.shift { width: 100%; min-width: 520px; border-collapse: collapse; font-size: 15px; }
+.shift caption { text-align: left; padding: 18px 20px 6px; font: 600 16px/1.35 var(--body); color: var(--ink); }
+.shift th, .shift td { text-align: left; vertical-align: top; padding: 12px 16px; border-top: 1px solid var(--line); }
+.shift thead th { font: 500 11px/1.3 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); border-top: 0; }
+.shift thead th:last-child { color: var(--violet); }
+.shift tbody th { font-weight: 600; color: var(--ink); width: 26%; }
+.shift td { color: var(--ink-3); }
+.shift td:last-child { color: var(--ink); font-weight: 500; border-left: 2px solid var(--violet); background: color-mix(in srgb, var(--violet) 6%, transparent); }
+ol.todo { margin: 0; padding: 0; list-style: none; counter-reset: t; display: grid; gap: 10px; }
+ol.todo li { counter-increment: t; position: relative; padding: 14px 16px 14px 52px; border: 1px solid var(--line); border-radius: 3px; background: var(--panel); color: var(--ink-2); font-size: 16px; }
+ol.todo li::before { content: counter(t); position: absolute; left: 16px; top: 14px; width: 24px; height: 24px; display: grid; place-items: center; border: 1px solid var(--ink); border-radius: 3px; font: 500 12px/1 var(--mono); color: var(--ink); }
+.quote cite a { color: inherit; }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="./#research" aria-label="LAAI, back to the home page">
+      <svg class="logo" viewBox="0 0 28 28" aria-hidden="true"><rect class="s" x="2" y="2" width="9" height="9" rx="1"/><rect class="f" x="2" y="15" width="9" height="9" rx="1"/><rect class="f" x="15" y="15" width="9" height="9" rx="1"/><path class="s" d="M11 6.5h8.5M19.5 15V10"/><circle class="f" cx="19.5" cy="6.5" r="3.2"/></svg>
+      <span>LA<em>AI</em></span>
+    </a>
+    <a class="back" href="./#research">← Back to research</a>
+  </div>
+</header>
+
+<main>
+<section class="head">
+  <div class="wrap">
+    <div class="sheet-no"><b>R-02</b><span class="label">Research · article</span></div>
+    <h1>AI and architectural education: <em>a paradigm shift</em></h1>
+    <p class="standfirst">For the first time, the tool in the studio proposes, explains and responds to critique. Students have already moved. Schools now have to decide what kind of architect they want to produce.</p>
+    <dl class="tblock">
+      <div><dt>Written by</dt><dd>Lavinia Lorena Jilavu</dd></div>
+      <div><dt>Published</dt><dd><time datetime="2026-11-05">5 November 2026</time></dd></div>
+      <div><dt>Reading time</dt><dd>6 min</dd></div>
+    </dl>
+  </div>
+</section>
+
+<div class="wrap">
+<article>
+  <p>Architectural education has absorbed new tools before. In the late 90s traditional drawing gave way to CAD, and CAD then led to BIM and parametric modelling. Each time, the tools changed quite easily, while the courses themselves stayed much the same.</p>
+
+  <h2>Why this is a paradigm shift</h2>
+  <p>The student designed, the tool executed, and the professor judged. AI breaks that pattern. For the first time, the tool does more than execute: it proposes, explains its choices and responds to critique. Many professors might find this intimidating, and the data suggests many do.</p>
+
+  <figure class="roles" aria-labelledby="roles-t">
+    <h3 id="roles-t">AI moves from executing to proposing, explaining and critiquing</h3>
+    <div class="roles-row">
+      <p class="label">Traditional studio</p>
+      <ol class="flow">
+        <li><b>Student</b><span>Designs</span></li>
+        <li><b>Tool</b><span>Executes</span></li>
+        <li><b>Professor</b><span>Judges</span></li>
+      </ol>
+      <p class="loop">Professor → student: feedback</p>
+    </div>
+    <div class="roles-row">
+      <p class="label">AI studio</p>
+      <ol class="flow two-way">
+        <li><b>Student</b><span>Prompts, curates and directs</span></li>
+        <li class="ai"><b>AI</b><span>Proposes, explains, responds to critique</span></li>
+        <li><b>Professor</b><span>Coaches judgment and pushes further</span></li>
+      </ol>
+      <p class="loop">Student ⇄ AI: prompts and responses · Professor → student: reads the student, not only the project</p>
+    </div>
+    <figcaption>Roles in the studio, traditional vs AI.</figcaption>
+  </figure>
+
+  <p>In a 2025 College Board survey of more than 3,000 U.S. college faculty across all disciplines, <strong>45%</strong> held a negative view of AI in higher education against <strong>34%</strong> positive, and over 84% agreed that it reduces students’ critical thinking, originality and engagement (<a href="https://newsroom.collegeboard.org/new-college-board-research-faculty-express-near-universal-concern-student-ai-use-undermines" target="_blank" rel="noopener">College Board</a>).</p>
+  <p>On academic integrity, <strong>92%</strong> were concerned about plagiarism or dishonesty made easier by AI. Yet this debate frames AI almost entirely as a writing shortcut. What if it were also used to <em>enhance collaborative research</em>? So far, academic use of AI has centred on one of its core functions: <strong>automation</strong>, in which you, the user, issue an instruction and the tool carries it out. Its capacity for <strong>augmentation</strong>, extending knowledge through an ethical, collaborative partnership between student and AI, remains largely unexamined and, in my opinion, rarely assessed.</p>
+  <p>Randy Deutsch, who has taught architecture studios for 25 years, describes how his 2026 AI studio forced him to rethink the roles of student, professor and tool, and even where authority sits in the studio (<a href="https://commonedge.org/if-everybodys-using-ai-whats-an-ai-design-studio-for/" target="_blank" rel="noopener">Common Edge</a>).</p>
+
+  <figure class="chart" aria-labelledby="fac-t">
+    <h3 id="fac-t">Faculty worry about AI, and only one in five feels ready to guide it</h3>
+    <p class="sub">Share of 3,000+ U.S. college faculty, all disciplines, %</p>
+    <div class="group">
+      <p class="label">How faculty see AI in higher education</p>
+      <div class="bar"><span>Worried about AI plagiarism</span><div class="track"><div class="fill" style="width:92%"></div><b>92%</b></div></div>
+      <div class="bar"><span>AI reduces critical thinking</span><div class="track"><div class="fill" style="width:84%"></div><b>&gt;84%</b></div></div>
+      <div class="bar"><span>Negative overall view</span><div class="track"><div class="fill" style="width:45%"></div><b>45%</b></div></div>
+      <div class="bar"><span>Positive overall view</span><div class="track"><div class="fill" style="width:34%"></div><b>34%</b></div></div>
+    </div>
+    <div class="group">
+      <p class="label">How ready they feel to guide students</p>
+      <div class="bar"><span>Still exploring or need guidance</span><div class="track"><div class="fill" style="width:79%"></div><b>79%</b></div></div>
+      <div class="bar"><span>Very confident</span><div class="track"><div class="fill gov" style="width:21%"></div><b>21%</b></div></div>
+    </div>
+    <figcaption>Source: <a href="https://newsroom.collegeboard.org/new-college-board-research-faculty-express-near-universal-concern-student-ai-use-undermines" target="_blank" rel="noopener">College Board faculty survey</a>, summer 2025. Bars drawn to scale.</figcaption>
+  </figure>
+
+  <p>That is what makes this a paradigm shift rather than another software update. The question for schools is no longer <em>whether</em> to teach AI, but <em>what kind</em> of architect they want to produce: one who is fluent with the tools, or one who can judge what the tools produce.</p>
+
+  <h2>Where things stand</h2>
+  <p><strong>Quite frankly, students have already moved.</strong> Across higher education, AI use is close to universal. In the UK, HEPI’s 2025 survey of 1,041 undergraduates found that 92% use AI in some form, up from 66% a year earlier, and 88% use it for assessments (<a href="https://www.hepi.ac.uk/2025/02/26/student-generative-ai-survey-2025/" target="_blank" rel="noopener">HEPI</a>). In the US, Inside Higher Ed’s 2025 Student Voice survey found that 85% of students had used AI for coursework in the past year (<a href="https://www.eweek.com/news/student-voice-survey-2025/" target="_blank" rel="noopener">eWeek</a>).</p>
+  <p><strong>Students feel that institutions are not supporting this transition.</strong> Only 29% of UK students say their university encourages AI use, while 40% say it does not (<a href="https://www.hepi.ac.uk/2025/02/26/student-generative-ai-survey-2025/" target="_blank" rel="noopener">HEPI</a>). Students want guidance rather than bans: 53% ask for education on ethical AI use and 51% for clear, standardised rules (<a href="https://www.eweek.com/news/student-voice-survey-2025/" target="_blank" rel="noopener">eWeek</a>). Often the answers they look for in a professor are found in an AI agent instead, which wrongly becomes the perfect persona to replace the institutional figure.</p>
+
+  <h2>The tensions</h2>
+  <p>Deutsch’s account of his AI studio at the Brooklyn Marine Terminal is one of the most detailed from inside a classroom, and it covers most of the open questions (<a href="https://commonedge.org/if-everybodys-using-ai-whats-an-ai-design-studio-for/" target="_blank" rel="noopener">Common Edge</a>).</p>
+  <ul>
+    <li><strong>Authorship.</strong> If an AI generated the massing, is it still the student’s design? His students argued it was, because the outputs came from their own iterative prompting and they treated every output as an editable starting point rather than a finished result. However, one of the most important uncertainties surfaces here: what is the material that AI generates actually based on? The provenance of AI outputs can never be fully traced, and nobody yet knows whose aesthetics, histories and ideas sit inside the training data.</li>
+    <li><strong>The professor’s role.</strong> Deutsch argues that the professor’s <em>informational</em> authority, knowing more precedents and technical details than the student, is permanently reduced. What remains is the professor’s judgment: reading the student rather than the project, spotting where their thinking gets stuck, and pushing them further.</li>
+    <li><strong>Assessment and accreditation.</strong> Traditional studio grading rewards the final outcome. Deutsch suggests assessing judgment, process and critical reflection first. The NAAB wrote its performance criteria before generative AI existed, which leaves a question mark over AI-assisted work: does it show <strong>student competence or tool competence</strong>?</li>
+  </ul>
+  <p class="pull">This is where the perfect AI persona, the one that always answers, whether it’s 3 am or 7 pm, never disagreeing with the student and never questioning their judgment, becomes a quite dangerous adversary.</p>
+
+  <h2>Toward a new paradigm</h2>
+  <p>Putting the evidence together, the shift looks something like this:</p>
+  <div class="shift-wrap" tabindex="0" role="region" aria-label="Paradigm shift table">
+    <table class="shift">
+      <caption>From a tool that executes to a partner that critiques</caption>
+      <thead><tr><th scope="col"><span class="sr">Role</span></th><th scope="col">The old paradigm</th><th scope="col">The emerging paradigm</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">The tool</th><td>Executes what the student draws</td><td>Proposes, explains and responds to critique</td></tr>
+        <tr><th scope="row">The professor</th><td>Source of precedents, technique and judgment</td><td>Coach of judgment, process and critical thinking</td></tr>
+        <tr><th scope="row">The student</th><td>Author and producer of drawings</td><td>Author, curator and director of outputs</td></tr>
+        <tr><th scope="row">What is assessed</th><td>Mainly the final outcome</td><td>Judgment, process and reflection, then outcome</td></tr>
+        <tr><th scope="row">How AI is learned</th><td>Informally, through social media and peers</td><td>Part of the curriculum, with ethics and limits</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>What schools could do now</h2>
+  <ol class="todo">
+    <li><strong>Teach AI literacy, not just AI tools.</strong> Follow the SCOSA recommendation: students should understand what a model optimises for, what it flattens, and where its outputs come from.</li>
+    <li><strong>Make the process visible.</strong> Ask students to document prompts, iterations and edits, so reviewers can see where the student’s judgment shaped the result.</li>
+    <li><strong>Rewrite assessment criteria.</strong> Grade the ability to question, curate and reject outputs, not only the polish of the final images.</li>
+    <li><strong>Train the teachers.</strong> Close the student–faculty gap with workshops, so tutors can critique AI-assisted work with confidence.</li>
+    <li><strong>Set clear, fair rules.</strong> Publish a school-wide AI policy, and provide shared access to paid tools so the studio does not split by budget.</li>
+    <li><strong>Keep the studio human.</strong> Protect the desk crit, peer review and productive frustration, the parts of studio learning no AI can replace yet.</li>
+  </ol>
+  <figure class="quote">
+    <p>Is the studio teaching tool use, or critical practice? A studio that only teaches tools is worth less than on-the-job training; one that teaches judgment is hard to replace.</p>
+    <cite>The choice Randy Deutsch puts to every school, paraphrased (<a href="https://commonedge.org/if-everybodys-using-ai-whats-an-ai-design-studio-for/" target="_blank" rel="noopener">Common Edge</a>)</cite>
+  </figure>
+</article>
+
+<section class="sources" aria-labelledby="src-t">
+  <p class="label" id="src-t">Sources</p>
+  <ol>
+    <li><a href="https://commonedge.org/if-everybodys-using-ai-whats-an-ai-design-studio-for/" target="_blank" rel="noopener">If Everybody’s Using AI, What’s an AI Design Studio For? (Randy Deutsch, Common Edge, May 2026)</a></li>
+    <li><a href="https://www.hepi.ac.uk/2025/02/26/student-generative-ai-survey-2025/" target="_blank" rel="noopener">Student Generative AI Survey 2025 (HEPI)</a></li>
+    <li><a href="https://gigazine.net/gsc_news/en/20250227-uk-university-student-generative-ai-survey" target="_blank" rel="noopener">HEPI survey coverage (Gigazine)</a></li>
+    <li><a href="https://www.eweek.com/news/student-voice-survey-2025/" target="_blank" rel="noopener">Inside Higher Ed Student Voice survey 2025 (eWeek)</a></li>
+    <li><a href="https://www.frontiersin.org/journals/built-environment/articles/10.3389/fbuil.2025.1610709/full" target="_blank" rel="noopener">Enhancing the use of AI in architectural education: Saudi Arabia (Frontiers in Built Environment, 2025)</a></li>
+    <li><a href="https://journals.ue.wroc.pl/br/article/view/1706" target="_blank" rel="noopener">AI in architectural education: Wrocław students (2025)</a></li>
+    <li><a href="https://sciforum.net/paper/download/31963/slides" target="_blank" rel="noopener">AI in architecture education in Bangladesh (Sciforum)</a></li>
+    <li><a href="https://www.riba.org/work/insights-and-resources/professional-features/ai-professional-features/what-can-architects-learn-from-an-ai-in-education-report/" target="_blank" rel="noopener">What can architects learn from an AI in education report? (RIBA, on the SCOSA report)</a></li>
+    <li><a href="https://eprints.lancs.ac.uk/id/eprint/232626" target="_blank" rel="noopener">AI and the Future of Architectural Education in the UK (SCOSA report, Lancaster eprints)</a></li>
+    <li><a href="https://newsroom.collegeboard.org/new-college-board-research-faculty-express-near-universal-concern-student-ai-use-undermines" target="_blank" rel="noopener">College Faculty Perceptions of Generative AI in Higher Education (College Board, February 2026)</a></li>
+  </ol>
+</section>
+
+<aside class="next">
+  <p>Teaching architecture? The education edition of my AI strategy guide is free.</p>
+  <a class="btn" href="./#guides">Get the education guide</a>
+</aside>
+</div>
+</main>
+</body>
+</html>

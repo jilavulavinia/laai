@@ -287,11 +287,13 @@ sup.fn a { text-decoration: none; }
 .guide .links { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; margin-top: 6px; }
 .guide .links .es { font-size: 13.5px; color: var(--ink-2); padding-block: 6px; }
 .guide.edu { border-color: var(--violet); }
-.paper { display: grid; gap: 24px; margin-bottom: 56px; padding: 28px; border: 1px solid var(--ink); border-radius: var(--r); background: var(--panel); text-decoration: none; transition: transform .15s ease; }
+.papers { display: grid; gap: 16px; margin-bottom: 56px; }
+@media (min-width: 900px) { .papers { grid-template-columns: 1fr 1fr; } }
+.paper { display: grid; gap: 24px; grid-template-rows: 1fr auto; padding: 28px; border: 1px solid var(--ink); border-radius: var(--r); background: var(--panel); text-decoration: none; transition: transform .15s ease; }
 .paper:hover { transform: translateY(-2px); }
-@media (min-width: 900px) { .paper { grid-template-columns: 7fr 4fr; gap: 48px; padding: 36px; } }
+@media (min-width: 900px) { .paper { padding: 32px; } }
 .paper-main { display: grid; gap: 12px; align-content: start; min-width: 0; }
-.paper h3 { font: 400 clamp(28px, 3.4vw, 40px)/1.1 var(--display); letter-spacing: -.02em; }
+.paper h3 { font: 400 clamp(26px, 2.6vw, 34px)/1.12 var(--display); letter-spacing: -.02em; }
 .paper-main > p:not(.label) { color: var(--ink-2); max-width: 58ch; }
 .paper .go { font: 500 13px/1 var(--mono); color: var(--violet); margin-top: 4px; }
 .paper-figs { margin: 0; display: grid; gap: 0; align-content: start; border-top: 1px solid var(--ink); }
@@ -650,6 +652,7 @@ sup.fn a { text-decoration: none; }
       </div>
       <p class="lede">I’m not selling software. My research and the guides that come out of it are free to read and use at work, in English and Spanish. No sign-up needed.</p>
     </div>
+    <div class="papers">
     <a class="paper" href="article.html">
       <div class="paper-main">
         <p class="label">R-01 · Article · 5 November 2026 · 6 min read</p>
@@ -663,6 +666,20 @@ sup.fn a { text-decoration: none; }
         <div><dt>Firms with high confidence in their data</dt><dd>29%</dd></div>
       </dl>
     </a>
+    <a class="paper" href="article-education.html">
+      <div class="paper-main">
+        <p class="label">R-02 · Article · 5 November 2026 · 6 min read</p>
+        <h3>AI and architectural education: a paradigm shift</h3>
+        <p>For the first time, the tool in the studio proposes, explains and responds to critique. What that means for students, professors and assessment, and what schools could do now.</p>
+        <span class="go">Read the article →</span>
+      </div>
+      <dl class="paper-figs">
+        <div><dt>UK students using AI, 2025</dt><dd>92%</dd></div>
+        <div><dt>Say their university encourages it</dt><dd>29%</dd></div>
+        <div><dt>Faculty very confident guiding it</dt><dd>21%</dd></div>
+      </dl>
+    </a>
+    </div>
     <div class="sub-head" id="guides"><h3>Practical guides</h3><p class="small">7 guides · PDF · English and Spanish</p></div>
     <ul class="guides">
       <li class="guide"><img src="assets/guide-cover-en.webp" alt="" width="400" height="566" loading="lazy"><div class="guide-body"><h3>Start your AI journey</h3><p>What AI can and can’t do, a 5-step roadmap, a readiness check, a value worksheet and a 90-day plan.</p><p class="meta">10 pages · roadmap · readiness check</p><div class="links"><a class="btn btn-primary btn-small" href="assets/LAAI-AI-guide-EN.pdf" data-pdf="LAAI-AI-guide-EN.pdf">Download PDF</a><a class="es" href="assets/LAAI-guia-IA-ES.pdf" data-pdf="LAAI-guia-IA-ES.pdf" lang="es">En español</a></div></div></li>
