@@ -147,6 +147,28 @@ sup.fn a { text-decoration: none; }
 .tblock .tb-name { grid-column: 1 / -1; }
 @media (min-width: 760px) { .tblock .tb-name { grid-column: auto; } }
 
+
+/* intro · why now: dark band between the cover and A-01 */
+.why { padding-block: 80px; background: var(--ink); color: var(--sheet); }
+.why .label { color: color-mix(in srgb, var(--sheet) 65%, transparent); }
+.why-head { display: grid; gap: 16px; max-width: 980px; margin-bottom: 44px; }
+.why h2 { font: 400 clamp(30px, 3.8vw, 46px)/1.1 var(--display); letter-spacing: -.02em; }
+.why-grid { display: grid; gap: 32px; }
+@media (min-width: 900px) { .why-grid { grid-template-columns: 1fr 1fr; gap: 56px; } }
+.why-k { font: 500 12px/1.3 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--sheet); padding-bottom: 12px; border-bottom: 1px solid var(--sheet); }
+.why-col dl { margin: 0; display: grid; }
+.why-col dl > div { display: grid; grid-template-columns: minmax(0, 210px) minmax(0, 1fr); gap: 20px; padding: 16px 0; border-bottom: 1px solid color-mix(in srgb, var(--sheet) 18%, transparent); align-items: baseline; }
+@media (max-width: 560px) { .why-col dl > div { grid-template-columns: 1fr; gap: 4px; } }
+.why-col dt { font: 400 26px/1.15 var(--display); white-space: nowrap; }
+.why-col dd { margin: 0; font-size: 15.5px; line-height: 1.55; color: color-mix(in srgb, var(--sheet) 78%, transparent); }
+.why sup.fn a { color: color-mix(in srgb, var(--sheet) 70%, transparent); }
+.why-close { margin-top: 40px; max-width: 64ch; font: 400 22px/1.45 var(--display); }
+.why-links { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 10px 24px; }
+.why-links a { font: 500 13px/1.4 var(--mono); color: var(--sheet); padding-block: 4px; }
+.why-notes { margin-top: 28px; list-style: none; display: flex; flex-wrap: wrap; gap: 6px 22px; }
+.why-notes li { font: 400 12px/1.5 var(--mono); color: color-mix(in srgb, var(--sheet) 62%, transparent); }
+.why-notes li b { margin-right: 6px; font-weight: 500; color: var(--sheet); }
+
 /* A-01: the gap */
 .gap-chart { display: grid; gap: 22px; padding: 28px; border: 1px solid var(--line); border-radius: var(--r); background: var(--panel); }
 .bar-row { display: grid; gap: 8px; }
@@ -438,6 +460,43 @@ sup.fn a { text-decoration: none; }
       <div><dt>Free guides</dt><dd class="big num">7</dd></div>
       <div><dt>Languages</dt><dd>IT · ES · RO · EN · FR · DA</dd></div>
     </dl>
+  </div>
+</section>
+
+<!-- intro · why now -->
+<section class="why" aria-labelledby="h-why">
+  <div class="wrap">
+    <div class="why-head">
+      <p class="label">Why now · the next 25 years</p>
+      <h2 id="h-why">Why I think AI will be needed for decades, on building sites and far beyond them.</h2>
+    </div>
+    <div class="why-grid">
+      <div class="why-col">
+        <p class="why-k">In construction</p>
+        <dl>
+          <div><dt class="num">168,000 → 33,346</dt><dd>homes approved in Andalusia, 2006 against 2025. The crisis took companies and trades with it, and today there aren’t enough hands.<sup class="fn"><a href="#w1">a</a></sup></dd></div>
+          <div><dt class="num">−52 %</dt><dd>embodied carbon per m² by 2050, with carbon limits expected in the Spanish building code from 2028.<sup class="fn"><a href="#w2">b</a></sup></dd></div>
+          <div><dt class="num">59 % · 15 %</dt><dd>of UK architecture practices use AI, and have a formal AI policy for it.<sup class="fn"><a href="#w3">c</a></sup></dd></div>
+        </dl>
+      </div>
+      <div class="why-col">
+        <p class="why-k">In society</p>
+        <dl>
+          <div><dt class="num">52 % · 36 %</dt><dd>of U.S. workers feel worried about AI at work, and hopeful about it.<sup class="fn"><a href="#w4">d</a></sup></dd></div>
+          <div><dt class="num">6 %</dt><dd>expect AI to bring them more job opportunities.<sup class="fn"><a href="#w4">d</a></sup></dd></div>
+          <div><dt class="num">92 % · 29 %</dt><dd>of UK students use AI, and say their university encourages it.<sup class="fn"><a href="#w5">e</a></sup></dd></div>
+        </dl>
+      </div>
+    </div>
+    <p class="why-close">The next 25 years ask us to build more homes, with fewer people and less carbon. That needs industrialised construction and AI that people can trust. It also needs people who keep authorship of their work, rather than becoming operators of a machine.</p>
+    <p class="why-links"><a href="article.html">Read R-01 · AI in AEC</a><a href="article-merit.html">Read R-03 · Meritocracy in the times of AI</a></p>
+    <ol class="why-notes" aria-label="Sources">
+      <li id="w1"><b>a</b>Ministerio de Transportes, building permits for new homes, cited in press</li>
+      <li id="w2"><b>b</b>GBCe, BuildingLife roadmap, 2022</li>
+      <li id="w3"><b>c</b>RIBA AI Report 2025</li>
+      <li id="w4"><b>d</b>Pew Research Center, 2025</li>
+      <li id="w5"><b>e</b>HEPI Student Generative AI Survey 2025</li>
+    </ol>
   </div>
 </section>
 
