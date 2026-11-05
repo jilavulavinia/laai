@@ -1,4 +1,2 @@
 User-agent: *
 Allow: /
-
-Sitemap: https://laai.netlify.app/sitemap.xml

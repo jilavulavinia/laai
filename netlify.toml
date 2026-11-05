@@ -11,5 +11,7 @@
 [[headers]]
   for = "/*"
   [headers.values]
+    # Hidden from search engines for now; delete this line to go public.
+    X-Robots-Tag = "noindex, nofollow"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
