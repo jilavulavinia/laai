@@ -1,0 +1,15 @@
+# Plain HTML site: nothing to build, publish the repository root.
+[build]
+  publish = "."
+
+# Images, video and PDFs rarely change: let browsers cache them for a week.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"

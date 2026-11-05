@@ -1,0 +1,823 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>LAAI – AI for affordable housing construction | Lavinia Lorena Jilavu</title>
+<meta name="description" content="Lavinia Lorena Jilavu researches how AI can make housing cheaper and faster to build, tests it on real project data, and shares what she learns for free. BIM specialist in industrialised timber construction, Málaga.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap">
+<style>
+/* Layout: the page as a set of drawing sheets. Each section is one sheet with a sheet number and title, a title block carries the facts, sources are footnoted like drawing notes. One accent (violet); green means "verified" and nothing else. */
+:root {
+  --sheet: #f2f3ef;       /* drafting film */
+  --panel: #fafaf8;
+  --ink: #16181a;
+  --ink-2: #464a48;
+  --ink-3: #676b68;
+  --line: #d2d5cf;
+  --grid: rgba(22, 24, 26, .045);
+  --violet: #5b3fe0;
+  --violet-ink: #ffffff;
+  --ok: #1b6f46;
+  --ok-bg: #dbf3e4;
+  --warn: #9c3f1c;
+  --warn-bg: #f8e4da;
+
+  --display: "Newsreader", Georgia, "Times New Roman", serif;
+  --body: "Geist", "Helvetica Neue", Arial, sans-serif;
+  --mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  --measure: 1160px;
+  --r: 6px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --sheet: #111312; --panel: #181b19; --ink: #eceee9; --ink-2: #bcc0ba; --ink-3: #959a94;
+    --line: #2d312e; --grid: rgba(236, 238, 233, .04);
+    --violet: #a897ff; --violet-ink: #111312;
+    --ok: #7ef2a8; --ok-bg: rgba(126, 242, 168, .12); --warn: #f6a08f; --warn-bg: rgba(246, 160, 143, .12);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --sheet: #111312; --panel: #181b19; --ink: #eceee9; --ink-2: #bcc0ba; --ink-3: #959a94;
+  --line: #2d312e; --grid: rgba(236, 238, 233, .04);
+  --violet: #a897ff; --violet-ink: #111312;
+  --ok: #7ef2a8; --ok-bg: rgba(126, 242, 168, .12); --warn: #f6a08f; --warn-bg: rgba(246, 160, 143, .12);
+  color-scheme: dark;
+}
+
+:root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(72px + env(safe-area-inset-top, 0px)); }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition: none !important; animation: none !important; } }
+body {
+  margin: 0; background: var(--sheet); color: var(--ink);
+  font: 400 16px/1.6 var(--body); -webkit-font-smoothing: antialiased;
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--sheet); }
+img { max-width: 100%; height: auto; display: block; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--violet); outline-offset: 3px; border-radius: 2px; }
+h1, h2, h3 { margin: 0; text-wrap: balance; }
+p, li { text-wrap: pretty; }
+p { margin: 0; }
+ul, ol { margin: 0; padding: 0; }
+
+.wrap {
+  max-width: calc(var(--measure) + 64px); margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+@media (min-width: 760px) { .wrap { padding-left: max(32px, env(safe-area-inset-left, 0px)); padding-right: max(32px, env(safe-area-inset-right, 0px)); } }
+
+.skip { position: absolute; left: 12px; top: -64px; z-index: 50; padding: 10px 16px; border-radius: 999px; background: var(--ink); color: var(--sheet); font-weight: 600; text-decoration: none; }
+.skip:focus { top: calc(12px + env(safe-area-inset-top, 0px)); }
+
+/* type scale: 12 mono labels · 16 body · 19 lede · 26 h3-serif · clamp h2 · clamp h1 */
+.label { font: 500 12px/1.3 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); }
+.lede { font-size: 19px; line-height: 1.55; color: var(--ink-2); max-width: 60ch; }
+.serif { font-family: var(--display); font-weight: 400; }
+.num { font-variant-numeric: tabular-nums; }
+sup.fn { font: 500 10px/0 var(--mono); color: var(--violet); margin-left: 1px; }
+sup.fn a { text-decoration: none; }
+
+/* buttons */
+.btn { display: inline-flex; align-items: center; gap: 10px; min-height: 46px; padding: 0 20px; border-radius: 999px; font: 500 15px/1 var(--body); text-decoration: none; border: 1px solid var(--ink); cursor: pointer; transition: transform .15s ease, background .15s ease; }
+.btn:hover { transform: translateY(-1px); }
+.btn-primary { background: var(--ink); color: var(--sheet); }
+.btn-ghost { background: transparent; color: var(--ink); }
+.btn-small { min-height: 36px; padding: 0 14px; font-size: 14px; }
+
+/* header */
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: color-mix(in srgb, var(--sheet) 92%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+.top .wrap { display: flex; align-items: center; gap: 24px; height: 64px; }
+.brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; font: 600 18px/1 var(--body); letter-spacing: -.01em; }
+.brand em { font-style: normal; color: var(--violet); }
+.logo { width: 26px; height: 26px; }
+.logo .f { fill: var(--violet); }
+.logo .s { fill: none; stroke: var(--violet); stroke-width: 1.6; }
+.nav { display: flex; gap: 22px; margin-left: auto; }
+.nav a { font-size: 14px; color: var(--ink-2); text-decoration: none; padding: 6px 0; }
+.nav a:hover { color: var(--ink); }
+.lang { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; padding: 2px; }
+.lang span, .lang a { font: 500 12px/1 var(--mono); padding: 7px 9px; border-radius: 999px; text-decoration: none; color: var(--ink-3); }
+.lang span { background: var(--ink); color: var(--sheet); }
+@media (max-width: 860px) { .nav { display: none; } .lang { margin-left: auto; } }
+@media (max-width: 420px) { .top .btn { display: none; } }
+
+/* sheet = section */
+.sheet { padding-block: 88px; border-bottom: 1px solid var(--line); }
+@media (max-width: 760px) { .sheet { padding-block: 64px; } }
+.sheet-head { display: grid; gap: 18px; margin-bottom: 44px; }
+@media (min-width: 900px) { .sheet-head { grid-template-columns: 5fr 6fr; gap: 56px; align-items: end; } }
+.sheet-no { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+.sheet-no b { font: 500 12px/1 var(--mono); letter-spacing: .08em; padding: 6px 8px; border: 1px solid var(--ink); border-radius: 3px; }
+.sheet h2 { font: 400 clamp(32px, 4.2vw, 50px)/1.08 var(--display); letter-spacing: -.02em; }
+.sheet-head .lede { justify-self: start; }
+
+/* hero */
+.hero { padding-block: 64px 0; background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px); background-size: 36px 36px; border-bottom: 1px solid var(--line); }
+.hero-grid { display: grid; gap: 40px; align-items: end; }
+@media (min-width: 900px) { .hero-grid { grid-template-columns: 7fr 4fr; gap: 64px; } }
+.hero h1 { font: 400 clamp(38px, 5.4vw, 70px)/1.04 var(--display); letter-spacing: -.025em; margin: 20px 0 26px; }
+.hero h1 em { font-style: normal; color: var(--violet); }
+.hero .lede { margin-bottom: 30px; }
+.cta { display: flex; flex-wrap: wrap; gap: 12px; }
+.portrait { position: relative; margin: 0; }
+.portrait img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 22%; border-radius: var(--r); filter: grayscale(1) contrast(1.03); }
+.portrait figcaption { margin-top: 12px; font: 400 12px/1.5 var(--mono); color: var(--ink-3); letter-spacing: .04em; }
+.portrait figcaption b { color: var(--ink); font-weight: 500; }
+/* dimension line beside the portrait: a drawing convention */
+.dim { position: absolute; top: 0; bottom: 38px; right: -18px; width: 1px; background: var(--ink-3); }
+.dim::before, .dim::after { content: ""; position: absolute; left: -4px; width: 9px; height: 1px; background: var(--ink-3); }
+.dim::before { top: 0; } .dim::after { bottom: 0; }
+@media (max-width: 899px) { .dim { display: none; } .portrait { max-width: 360px; } }
+
+/* title block */
+.tblock { margin-top: 56px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border: 1px solid var(--ink); border-bottom: 0; background: var(--panel); }
+@media (min-width: 760px) { .tblock { grid-template-columns: 1.4fr repeat(4, minmax(0, 1fr)); } }
+.tblock > div { padding: 14px 16px 16px; border-bottom: 1px solid var(--ink); border-right: 1px solid var(--line); min-width: 0; }
+.tblock > div:last-child { border-right: 0; }
+.tblock dt { font: 500 10.5px/1.3 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 8px; }
+.tblock dd { margin: 0; font: 500 15px/1.35 var(--body); }
+.tblock dd.big { font: 400 26px/1 var(--display); }
+.tblock .tb-name { grid-column: 1 / -1; }
+@media (min-width: 760px) { .tblock .tb-name { grid-column: auto; } }
+
+/* A-01: the gap */
+.gap-chart { display: grid; gap: 22px; padding: 28px; border: 1px solid var(--line); border-radius: var(--r); background: var(--panel); }
+.bar-row { display: grid; gap: 8px; }
+.bar-row header { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.bar-row header span { font-size: 15px; color: var(--ink-2); }
+.bar-row header b { font: 400 30px/1 var(--display); }
+.track { height: 14px; background: color-mix(in srgb, var(--ink) 7%, transparent); border-radius: 2px; overflow: hidden; }
+.fill { height: 100%; background: var(--ink); }
+.fill.short { background: var(--violet); }
+.gap-note { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; padding-top: 18px; border-top: 1px dashed var(--line); font-size: 15px; color: var(--ink-2); }
+.gap-note b { color: var(--ink); font-weight: 600; }
+.gap-side { display: grid; gap: 14px; align-content: start; }
+.gap-side p { font-size: 17px; line-height: 1.6; color: var(--ink-2); }
+.gap-side strong { color: var(--ink); font-weight: 600; }
+.gap-grid { display: grid; gap: 28px; }
+@media (min-width: 900px) { .gap-grid { grid-template-columns: 7fr 5fr; gap: 48px; align-items: start; } }
+.notes { margin-top: 36px; padding-top: 18px; border-top: 1px solid var(--line); display: grid; gap: 6px; list-style: none; }
+.notes li { font: 400 12.5px/1.5 var(--mono); color: var(--ink-3); }
+.notes li b { color: var(--violet); font-weight: 500; margin-right: 8px; }
+
+/* A-02: method */
+.steps { display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; counter-reset: s; list-style: none; }
+@media (min-width: 900px) { .steps { grid-template-columns: repeat(3, 1fr); } }
+.steps li { background: var(--panel); padding: 28px 26px 30px; display: grid; gap: 12px; align-content: start; }
+.steps .step-n { font: 500 12px/1 var(--mono); color: var(--violet); letter-spacing: .1em; }
+.steps h3 { font: 500 21px/1.25 var(--body); letter-spacing: -.01em; }
+.steps p { color: var(--ink-2); font-size: 15.5px; }
+.evidence { margin-top: 28px; display: grid; gap: 28px; padding: 28px; border: 1px solid var(--line); border-radius: var(--r); background: var(--panel); }
+@media (min-width: 900px) { .evidence { grid-template-columns: 6fr 5fr; gap: 40px; padding: 36px; } }
+.evidence figure { margin: 0; min-width: 0; }
+.evidence figure img { border-radius: 4px; border: 1px solid var(--line); }
+.evidence figcaption { margin-top: 10px; font: 400 12px/1.5 var(--mono); color: var(--ink-3); }
+.evidence h3 { font: 400 28px/1.15 var(--display); margin: 8px 0 14px; }
+.evidence .body { display: grid; gap: 14px; align-content: start; min-width: 0; }
+.evidence .body > p { color: var(--ink-2); }
+.score { display: flex; align-items: center; gap: 14px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 4px; }
+.score b { font: 400 40px/1 var(--display); }
+.score span { font-size: 14px; color: var(--ink-2); }
+.kv { display: grid; gap: 10px; }
+.kv div { display: grid; grid-template-columns: 92px 1fr; gap: 12px; font-size: 14.5px; padding-top: 10px; border-top: 1px solid var(--line); }
+.kv dt { font: 500 11px/1.6 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); }
+.kv dd { margin: 0; color: var(--ink-2); }
+.limits { margin-top: 28px; }
+.limits > p.label { margin-bottom: 14px; }
+.limit-list { display: grid; gap: 10px; list-style: none; }
+@media (min-width: 900px) { .limit-list { grid-template-columns: repeat(2, 1fr); } }
+.limit-list li { display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: start; padding: 14px 16px; border: 1px solid var(--line); border-radius: 4px; font-size: 15px; color: var(--ink-2); }
+.limit-list li b { color: var(--ink); font-weight: 600; }
+.tag { display: inline-block; font: 500 11px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; padding: 5px 7px; border-radius: 3px; white-space: nowrap; }
+.tag-ok { background: var(--ok-bg); color: var(--ok); }
+.tag-warn { background: var(--warn-bg); color: var(--warn); }
+
+/* A-03: proof */
+.diag { border: 1px solid var(--line); border-radius: var(--r); background: var(--panel); padding: 22px; }
+@media (min-width: 900px) { .diag { padding: 30px; } }
+.diag-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
+.diag-count { font: 500 13px/1 var(--mono); color: var(--ink-2); }
+.diag-count b { color: var(--ok); font-size: 18px; }
+.diag-cols { display: none; }
+@media (min-width: 900px) { .diag-cols { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; padding: 0 16px 10px; } }
+.diag-rows { display: grid; gap: 10px; list-style: none; }
+.diag-row { all: unset; box-sizing: border-box; display: grid; gap: 10px; width: 100%; padding: 16px; border: 1px solid var(--line); border-radius: 4px; cursor: pointer; transition: border-color .2s ease, background .2s ease; }
+@media (min-width: 900px) { .diag-row { grid-template-columns: 1fr 1fr 1fr; gap: 14px; } }
+.diag-row:hover { border-color: var(--ink-3); }
+.diag-row:focus-visible { outline: 2px solid var(--violet); outline-offset: 2px; }
+.cell { display: grid; gap: 4px; align-content: start; }
+.cell .label { font-size: 10.5px; }
+.cell b { font-weight: 600; font-size: 15.5px; }
+.cell span { font-size: 14px; color: var(--ink-2); }
+.cell.cause .label { color: var(--warn); }
+.cell.fix { padding-left: 12px; border-left: 1px dashed var(--line); transition: border-color .25s ease; }
+.cell.fix b, .cell.fix span { color: var(--ink-3); }
+.cell.fix .label::after { content: " · not applied"; }
+.diag-row[aria-pressed="true"] { border-color: var(--ok); background: color-mix(in srgb, var(--ok-bg) 45%, transparent); }
+.diag-row[aria-pressed="true"] .cell.fix { border-left: 2px solid var(--ok); }
+.diag-row[aria-pressed="true"] .cell.fix b { color: var(--ink); }
+.diag-row[aria-pressed="true"] .cell.fix span:not(.label) { color: var(--ink-2); }
+.diag-row[aria-pressed="true"] .cell.fix .label { color: var(--ok); }
+.diag-row[aria-pressed="true"] .cell.fix .label::after { content: " · applied"; }
+.diag-row[aria-pressed="true"] .cell.effect b { color: var(--ink-3); text-decoration: line-through; text-decoration-color: var(--ink-3); }
+.diag-foot { margin-top: 18px; font-size: 15px; color: var(--ink-2); }
+
+.demos { margin-top: 28px; display: grid; gap: 16px; }
+@media (min-width: 900px) { .demos { grid-template-columns: 1fr 1fr; } }
+.demo { display: grid; grid-template-rows: auto 1fr; border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; background: var(--panel); text-decoration: none; transition: border-color .2s ease; }
+.demo:hover { border-color: var(--ink-3); }
+.demo-media { aspect-ratio: 16 / 9; background: var(--sheet); border-bottom: 1px solid var(--line); overflow: hidden; }
+.demo-media img, .demo-media video { width: 100%; height: 100%; object-fit: cover; object-position: top left; display: block; }
+.demo-body { padding: 20px 22px 22px; display: grid; gap: 8px; align-content: start; }
+.demo-body h3 { font: 500 20px/1.25 var(--body); }
+.demo-body p { font-size: 15px; color: var(--ink-2); }
+.demo-body .go { margin-top: 6px; font: 500 13px/1 var(--mono); color: var(--violet); }
+.figs { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 4px; font-size: 14px; color: var(--ink-2); }
+.figs b { color: var(--ink); font-weight: 600; }
+.small { font-size: 13px; color: var(--ink-3); }
+
+.lib-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 16px; margin: 64px 0 18px; }
+.lib-head h3 { font: 400 30px/1.15 var(--display); }
+.filters { display: flex; flex-wrap: wrap; gap: 6px; }
+.filters button { font: 500 13px/1 var(--mono); padding: 9px 12px; border-radius: 999px; border: 1px solid var(--line); background: transparent; color: var(--ink-2); cursor: pointer; }
+.filters button[aria-pressed="true"] { background: var(--ink); color: var(--sheet); border-color: var(--ink); }
+.tools { list-style: none; border-top: 1px solid var(--line); }
+.tool { border-bottom: 1px solid var(--line); }
+.tool summary { list-style: none; display: grid; grid-template-columns: 96px minmax(0, 1fr) auto; gap: 18px; align-items: center; padding: 14px 4px; cursor: pointer; }
+.tool summary::-webkit-details-marker { display: none; }
+.tool summary img { width: 96px; aspect-ratio: 640 / 369; object-fit: cover; border-radius: 3px; }
+.tool .t-name { display: grid; gap: 3px; min-width: 0; }
+.tool .t-name b { font: 600 16.5px/1.3 var(--body); }
+.tool .t-name span { font-size: 14.5px; color: var(--ink-2); }
+.tool .t-meta { display: flex; align-items: center; gap: 14px; }
+.tool .t-cat { font: 500 11px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); }
+.tool .plus { width: 26px; height: 26px; border: 1px solid var(--line); border-radius: 50%; display: grid; place-items: center; font: 400 16px/1 var(--mono); color: var(--ink-2); transition: transform .2s ease; }
+.tool[open] .plus { transform: rotate(45deg); }
+@media (max-width: 640px) { .tool summary { grid-template-columns: 72px minmax(0, 1fr) auto; gap: 14px; } .tool summary img { width: 72px; } .tool .t-cat { display: none; } }
+.t-body { display: grid; gap: 22px; padding: 4px 4px 26px; }
+@media (min-width: 900px) { .t-body { grid-template-columns: 5fr 6fr; gap: 36px; padding-left: 118px; } }
+.t-body figure { margin: 0; min-width: 0; }
+.t-body figure img { border-radius: 4px; border: 1px solid var(--line); }
+.t-body figcaption { margin-top: 8px; font: 400 12px/1.5 var(--mono); color: var(--ink-3); }
+.t-text { display: grid; gap: 14px; align-content: start; min-width: 0; }
+.t-text > p { color: var(--ink-2); }
+.t-text ul { list-style: none; display: grid; gap: 7px; }
+.t-text li { position: relative; padding-left: 18px; font-size: 15px; color: var(--ink-2); }
+.t-text li::before { content: ""; position: absolute; left: 0; top: .62em; width: 8px; height: 1px; background: var(--ink-3); }
+.stack { display: flex; flex-wrap: wrap; gap: 6px; }
+.stack span { font: 400 12px/1 var(--mono); padding: 6px 8px; border: 1px solid var(--line); border-radius: 3px; color: var(--ink-2); }
+.t-limit { display: flex; gap: 10px; align-items: start; font-size: 14.5px; color: var(--ink-2); }
+.tool[hidden] { display: none; }
+
+/* A-04: guides */
+.guides { display: grid; gap: 16px; list-style: none; grid-template-columns: repeat(auto-fill, minmax(min(100%, 330px), 1fr)); }
+.guide { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 18px; padding: 18px; border: 1px solid var(--line); border-radius: var(--r); background: var(--panel); }
+.guide img { width: 96px; aspect-ratio: 400 / 566; object-fit: cover; border-radius: 3px; border: 1px solid var(--line); }
+.guide-body { display: grid; gap: 8px; align-content: start; min-width: 0; }
+.guide h3 { font: 600 16px/1.3 var(--body); }
+.guide p { font-size: 14px; color: var(--ink-2); }
+.guide .meta { font: 400 12px/1.4 var(--mono); color: var(--ink-3); }
+.guide .links { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; margin-top: 6px; }
+.guide .links .es { font-size: 13.5px; color: var(--ink-2); padding-block: 6px; }
+.guide.edu { border-color: var(--violet); }
+.paper { display: grid; gap: 24px; margin-bottom: 56px; padding: 28px; border: 1px solid var(--ink); border-radius: var(--r); background: var(--panel); text-decoration: none; transition: transform .15s ease; }
+.paper:hover { transform: translateY(-2px); }
+@media (min-width: 900px) { .paper { grid-template-columns: 7fr 4fr; gap: 48px; padding: 36px; } }
+.paper-main { display: grid; gap: 12px; align-content: start; min-width: 0; }
+.paper h3 { font: 400 clamp(28px, 3.4vw, 40px)/1.1 var(--display); letter-spacing: -.02em; }
+.paper-main > p:not(.label) { color: var(--ink-2); max-width: 58ch; }
+.paper .go { font: 500 13px/1 var(--mono); color: var(--violet); margin-top: 4px; }
+.paper-figs { margin: 0; display: grid; gap: 0; align-content: start; border-top: 1px solid var(--ink); }
+.paper-figs div { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+.paper-figs dt { font-size: 14px; color: var(--ink-2); }
+.paper-figs dd { margin: 0; font: 400 28px/1 var(--display); font-variant-numeric: tabular-nums; }
+.sub-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px 16px; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
+.sub-head h3 { font: 400 26px/1.2 var(--display); }
+.guide-note { margin-top: 18px; font-size: 14px; color: var(--ink-3); }
+.guide-note[data-state="error"] { color: var(--warn); }
+
+/* A-05: about, working together, contact */
+.about { display: grid; gap: 40px; }
+@media (min-width: 900px) { .about { grid-template-columns: 6fr 5fr; gap: 64px; } }
+.about-text { display: grid; gap: 18px; align-content: start; }
+.about-text p { color: var(--ink-2); font-size: 17px; }
+.about-text p.first { font-size: 21px; line-height: 1.5; color: var(--ink); }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.chips span { font: 400 12.5px/1 var(--mono); padding: 7px 9px; border: 1px solid var(--line); border-radius: 3px; color: var(--ink-2); }
+.cv { display: grid; gap: 26px; align-content: start; }
+.cv-list { list-style: none; border-top: 1px solid var(--ink); }
+.cv-list li { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 15px; }
+.cv-list .yr { font: 400 12.5px/1.6 var(--mono); color: var(--violet); }
+.cv-list b { display: block; font-weight: 600; }
+.cv-list span.sub { color: var(--ink-3); font-size: 14px; }
+.langs { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 16px; font-size: 14.5px; color: var(--ink-2); }
+.langs b { color: var(--ink); font-weight: 500; }
+
+.work { margin-top: 72px; display: grid; gap: 24px; }
+@media (min-width: 900px) { .work { grid-template-columns: 7fr 5fr; gap: 40px; } }
+.timeline { list-style: none; display: grid; border-left: 1px solid var(--ink); margin-left: 8px; }
+.timeline li { position: relative; padding: 0 0 24px 26px; display: grid; gap: 4px; }
+.timeline li:last-child { padding-bottom: 0; }
+.timeline li::before { content: ""; position: absolute; left: -5px; top: 6px; width: 9px; height: 9px; background: var(--sheet); border: 1px solid var(--ink); }
+.timeline li.free::before { background: var(--ok); border-color: var(--ok); }
+.timeline b { font-weight: 600; font-size: 16.5px; }
+.timeline p { font-size: 15px; color: var(--ink-2); }
+.timeline .when { font: 400 12px/1.4 var(--mono); color: var(--ink-3); }
+.routes { display: grid; gap: 8px; margin-top: 6px; }
+@media (min-width: 640px) { .routes { grid-template-columns: 1fr 1fr; } }
+.routes div { padding: 12px 14px; border: 1px solid var(--line); border-radius: 4px; font-size: 14px; color: var(--ink-2); }
+.routes div b { display: block; font-size: 15px; color: var(--ink); margin-bottom: 2px; }
+.audit { padding: 26px; border: 1px solid var(--ink); border-radius: var(--r); background: var(--panel); display: grid; gap: 14px; align-content: start; }
+.audit h3 { font: 400 26px/1.15 var(--display); }
+.audit > p { font-size: 15px; color: var(--ink-2); }
+.facts { display: flex; flex-wrap: wrap; gap: 6px; }
+.facts span { font: 400 12.5px/1.3 var(--mono); padding: 7px 9px; border-radius: 3px; background: color-mix(in srgb, var(--ink) 6%, transparent); color: var(--ink-2); }
+.audit ul { list-style: none; display: grid; gap: 6px; }
+.audit li { position: relative; padding-left: 18px; font-size: 14.5px; color: var(--ink-2); }
+.audit li::before { content: ""; position: absolute; left: 0; top: .55em; width: 8px; height: 8px; border: 1px solid var(--ok); background: var(--ok-bg); }
+.who { margin-top: 28px; font-size: 15px; color: var(--ink-2); }
+.who b { color: var(--ink); font-weight: 600; }
+
+.contact { margin-top: 72px; display: grid; gap: 28px; padding: 32px 26px; border-radius: var(--r); background: var(--ink); color: var(--sheet); }
+@media (min-width: 900px) { .contact { grid-template-columns: 6fr 5fr; gap: 48px; padding: 48px; } }
+.contact h2 { font: 400 clamp(30px, 3.6vw, 44px)/1.1 var(--display); letter-spacing: -.02em; }
+.contact .label { color: color-mix(in srgb, var(--sheet) 65%, transparent); }
+.contact p { margin-top: 16px; font-size: 17px; color: color-mix(in srgb, var(--sheet) 80%, transparent); max-width: 52ch; }
+.contact ol { margin-top: 18px; padding-left: 20px; display: grid; gap: 4px; font-size: 15px; color: color-mix(in srgb, var(--sheet) 80%, transparent); }
+.lines { display: grid; gap: 10px; align-content: start; }
+.line { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 16px; border: 1px solid color-mix(in srgb, var(--sheet) 18%, transparent); border-radius: 4px; min-width: 0; }
+.line > div { min-width: 0; }
+.line .label { display: block; margin-bottom: 6px; }
+.line .val { display: block; font: 500 16.5px/1.3 var(--body); color: var(--sheet); text-decoration: none; overflow-wrap: anywhere; user-select: all; padding-block: 3px; }
+.copy { flex: none; font: 500 12.5px/1 var(--body); min-height: 32px; padding: 0 12px; border-radius: 999px; border: 1px solid color-mix(in srgb, var(--sheet) 30%, transparent); background: transparent; color: var(--sheet); cursor: pointer; }
+
+/* footer title block */
+.foot { padding-block: 28px 40px; }
+.foot .wrap { display: grid; gap: 0; }
+.foot-tb { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border: 1px solid var(--line); }
+@media (min-width: 760px) { .foot-tb { grid-template-columns: 2fr repeat(3, 1fr); } }
+.foot-tb div { padding: 12px 14px; border-right: 1px solid var(--line); font: 400 12.5px/1.4 var(--mono); color: var(--ink-2); min-width: 0; }
+.foot-tb div:last-child { border-right: 0; }
+.foot-tb span { display: block; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 4px; }
+@media (max-width: 759px) { .foot-tb div:nth-child(2n) { border-right: 0; } .foot-tb div:nth-child(-n+2) { border-bottom: 1px solid var(--line); } }
+</style>
+
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","name":"Lavinia Lorena Jilavu","jobTitle":"BIM Expert, AI for construction","email":"mailto:jilavulavinia@gmail.com","telephone":"+34 611 941 879","address":{"@type":"PostalAddress","addressLocality":"Málaga","addressCountry":"ES"},"knowsLanguage":["it","es","ro","en","fr","da"],"knowsAbout":["BIM","Artificial intelligence in construction","Data validation","Industrialised timber construction","Affordable housing"]},{"@type":"ProfessionalService","name":"LAAI – AI for construction","areaServed":"ES","address":{"@type":"PostalAddress","addressLocality":"Málaga","addressCountry":"ES"},"founder":{"@type":"Person","name":"Lavinia Lorena Jilavu"}}]}</script>
+<meta name="author" content="Lavinia Lorena Jilavu">
+<meta name="theme-color" content="#f2f3ef" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#111312" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="LAAI – AI for construction">
+<meta property="og:title" content="I want more people on ordinary salaries to afford a home">
+<meta property="og:description" content="Lavinia Lorena Jilavu researches how AI can make housing cheaper and faster to build, tests it on real project data, and shares what she learns for free.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<!-- Add once the Netlify address is known: canonical, og:url, og:image (absolute URLs) -->
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#main" aria-label="LAAI, AI for construction. Back to top">
+      <svg class="logo" viewBox="0 0 28 28" aria-hidden="true"><rect class="s" x="2" y="2" width="9" height="9" rx="1"/><rect class="f" x="2" y="15" width="9" height="9" rx="1"/><rect class="f" x="15" y="15" width="9" height="9" rx="1"/><path class="s" d="M11 6.5h8.5M19.5 15V10"/><circle class="f" cx="19.5" cy="6.5" r="3.2"/></svg>
+      <span>LA<em>AI</em></span>
+    </a>
+    <nav class="nav" aria-label="Sections">
+      <a href="#gap">The gap</a><a href="#method">Method</a><a href="#proof">Proof</a><a href="#research">Research</a><a href="#about">About</a>
+    </nav>
+    <nav class="lang" aria-label="Language"><span aria-current="true">EN</span><a href="https://claude.ai/artifact/FbWXqMZJnthRoT6WxzDZ8Z" hreflang="es" lang="es">ES</a></nav>
+    <a class="btn btn-primary btn-small" href="#contact">Book a session</a>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- A-00 · cover -->
+<section class="hero" aria-labelledby="h-hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <p class="label">Research · AI for affordable housing · Málaga</p>
+        <h1 id="h-hero">I want more people on ordinary salaries to afford a home, and I think AI can help <em>if we use it carefully.</em></h1>
+        <p class="lede">I’m Lavinia, a BIM specialist in industrialised timber construction. I research where AI makes housing cheaper and faster to build, I test it on real project data before I recommend it, and I share what I learn for free.</p>
+        <div class="cta">
+          <a class="btn btn-primary" href="#contact">Book a free first session</a>
+          <a class="btn btn-ghost" href="#research">Read my research</a>
+        </div>
+      </div>
+      <figure class="portrait">
+        <img src="assets/photo.webp" alt="Portrait of Lavinia Lorena Jilavu" width="720" height="1168" fetchpriority="high">
+        <span class="dim" aria-hidden="true"></span>
+        <figcaption><b>Lavinia Lorena Jilavu</b> · BIM Expert<br>Málaga, Spain · worked across the Netherlands and Denmark</figcaption>
+      </figure>
+    </div>
+
+    <dl class="tblock" aria-label="Key facts">
+      <div class="tb-name"><dt>Drawn by</dt><dd>Lavinia Lorena Jilavu · LAAI</dd></div>
+      <div><dt>Timber construction</dt><dd class="big num">4 yrs</dd></div>
+      <div><dt>Tools built, in daily use</dt><dd class="big num">30</dd></div>
+      <div><dt>Free guides</dt><dd class="big num">7</dd></div>
+      <div><dt>Languages</dt><dd>IT · ES · RO · EN · FR · DA</dd></div>
+    </dl>
+  </div>
+</section>
+
+<!-- A-01 · the gap -->
+<section class="sheet" id="gap" aria-labelledby="h-gap">
+  <div class="wrap">
+    <div class="sheet-head">
+      <div>
+        <div class="sheet-no"><b>A-01</b><span class="label">The gap</span></div>
+        <h2 id="h-gap">Spain forms far more households than it builds homes.</h2>
+      </div>
+      <p class="lede">So prices and rents rise faster than wages. Teachers, nurses, technicians and young families earn too much for social housing and too little for the market. Málaga sits at the centre of it.</p>
+    </div>
+
+    <div class="gap-grid">
+      <figure class="gap-chart" aria-label="Spain last year: 240,000 new households against 92,000 homes completed">
+        <p class="label">Spain, last year<sup class="fn"><a href="#n1">1</a></sup></p>
+        <div class="bar-row">
+          <header><span>New households</span><b class="num">240,000</b></header>
+          <div class="track"><div class="fill" style="width:100%"></div></div>
+        </div>
+        <div class="bar-row">
+          <header><span>Homes completed</span><b class="num">92,000</b></header>
+          <div class="track"><div class="fill short" style="width:38.3%"></div></div>
+        </div>
+        <p class="gap-note"><span>For every <b>5</b> new households, about <b>2</b> new homes.</span><span class="small">Bars drawn to scale</span></p>
+      </figure>
+      <div class="gap-side">
+        <p>In Málaga a home now costs around <strong>ten years of a household’s gross income</strong>.<sup class="fn"><a href="#n2">2</a></sup> Rent rose <strong>80 %</strong> in five years, from 9.5 to 17.1 €/m² a month.<sup class="fn"><a href="#n3">3</a></sup></p>
+        <p>Spain is missing about <strong>750,000 homes</strong> built between 2021 and 2025, half of them in the hottest markets.<sup class="fn"><a href="#n4">4</a></sup></p>
+        <p>Closing that gap is largely about cost and speed. That is where I work: faster feasibility studies, cheaper industrialised systems, and plans that meet the building code.</p>
+      </div>
+    </div>
+
+    <ol class="notes" aria-label="Sources">
+      <li id="n1"><b>1</b>Banco de España, 2026.</li>
+      <li id="n2"><b>2</b>Brains Real Estate (Q3 2026) and Banco de España (2025).</li>
+      <li id="n3"><b>3</b>Idealista, May 2026.</li>
+      <li id="n4"><b>4</b>Banco de España via press, June 2026.</li>
+    </ol>
+  </div>
+</section>
+
+<!-- A-02 · method -->
+<section class="sheet" id="method" aria-labelledby="h-method">
+  <div class="wrap">
+    <div class="sheet-head">
+      <div>
+        <div class="sheet-no"><b>A-02</b><span class="label">Method</span></div>
+        <h2 id="h-method">How I test AI before I trust it.</h2>
+      </div>
+      <p class="lede">I’m passionate about innovation, but I don’t take it on trust. Every tool I build or recommend goes through the same three steps, in this order.</p>
+    </div>
+
+    <ol class="steps">
+      <li><span class="step-n">STEP 1</span><h3>Validate the data</h3><p>Models, drawings and quantities need validating before any AI result can be trusted. Element names, product codes and counts have to agree first.</p></li>
+      <li><span class="step-n">STEP 2</span><h3>Measure how it performs</h3><p>I run the system on real project data and record where it is reliable and where it fails. Scores are logged, so they can be compared with what actually happened on the project.</p></li>
+      <li><span class="step-n">STEP 3</span><h3>Decide what a person checks</h3><p>Nothing is dropped silently. Each tool counts and reports what it skipped or could not handle, so your team knows exactly what still needs a human eye.</p></li>
+    </ol>
+
+    <article class="evidence" aria-labelledby="h-qa">
+      <figure>
+        <img src="assets/shot-qa.webp" alt="The QA model risk panel in Rhino 8 showing a score of 49, medium risk" width="1200" height="797" loading="lazy">
+        <figcaption>Live panel in Rhino 8 · project model blurred for confidentiality</figcaption>
+      </figure>
+      <div class="body">
+        <p class="label">Example · steps 1 to 3 in one tool</p>
+        <h3 id="h-qa">QA model risk monitor</h3>
+        <p>It started as a QA checklist after the diagnosis on sheet A-03. Now it scores the risk of errors in the model while you work, against a target LOD / LOI level and NAA.K.T. material naming.</p>
+        <div class="score"><b class="num">49</b><span>Medium risk on a 0–100 scale. High risk starts at 50.</span></div>
+        <dl class="kv">
+          <div><dt>Checks</dt><dd>Elements without workstation or PP code, one product code with several names, unvalidated products, plates wider than 1,800 mm.</dd></div>
+          <div><dt>Score</dt><dd>60 % automatic model checks, 40 % process factors such as open feedback items and changes since the last peer check.</dd></div>
+          <div><dt>Logged</dt><dd>“Log snapshot” writes each score to a CSV next to the model, to compare with real feedback rounds.</dd></div>
+        </dl>
+      </div>
+    </article>
+
+    <div class="limits">
+      <p class="label">Known limits, stated by the tools themselves</p>
+      <ul class="limit-list">
+        <li><span class="tag tag-warn">Flagged</span><span><b>Facade area report.</b> Tapered extrusions are flagged instead of reported as exact.</span></li>
+        <li><span class="tag tag-warn">Fallback</span><span><b>Bathroom hatch.</b> When a room isn’t closed, it falls back to a rectangle and says so.</span></li>
+        <li><span class="tag tag-ok">Counted</span><span><b>Module size report.</b> Objects that aren’t real modules are flagged, and 0 objects are dropped silently.</span></li>
+        <li><span class="tag tag-ok">Visible</span><span><b>Housing simulator.</b> Every assumption is visible and editable, with its source.</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- A-03 · proof -->
+<section class="sheet" id="proof" aria-labelledby="h-proof">
+  <div class="wrap">
+    <div class="sheet-head">
+      <div>
+        <div class="sheet-no"><b>A-03</b><span class="label">Proof · 4 modular projects</span></div>
+        <h2 id="h-proof">Model quality was good. The waste sat between people, deadlines and checks.</h2>
+      </div>
+      <p class="lede">I reviewed four modular timber projects in the Netherlands and Belgium. The diagnosis found three organisational gaps and one manual chain behind the rework. Click a row to apply its fix.</p>
+    </div>
+
+    <div class="diag" id="diag">
+      <div class="diag-bar">
+        <p class="diag-count" aria-live="polite"><b id="diag-n" class="num">0</b> of 4 gaps closed</p>
+        <button type="button" class="btn btn-ghost btn-small" id="diag-all">Apply all fixes</button>
+      </div>
+      <div class="diag-cols label" aria-hidden="true"><span>Root cause</span><span>What happens</span><span>Countermeasure</span></div>
+      <ul class="diag-rows">
+        <li><button type="button" class="diag-row" aria-pressed="false" id="dg-1">
+          <span class="cell cause"><span class="label">Gap 1</span><b>No single feedback source</b><span>Mail, calls, Excel. Several modellers on one project.</span></span>
+          <span class="cell effect"><span class="label">Result</span><b>Feedback lost or repeated</b><span>Unclear what is done, on which building, by whom.</span></span>
+          <span class="cell fix"><span class="label">Fix</span><b>One feedback tracker</b><span>Date, building and status for every remark, in one place.</span></span>
+        </button></li>
+        <li><button type="button" class="diag-row" aria-pressed="false" id="dg-2">
+          <span class="cell cause"><span class="label">Gap 2</span><b>No binding timeline</b><span>Input too early, too late or last-minute.</span></span>
+          <span class="cell effect"><span class="label">Result</span><b>Gaps and rework</b><span>Idle time, floor plan rework, pushed deadlines.</span></span>
+          <span class="cell fix"><span class="label">Fix</span><b>Delivery dates at kickoff</b><span>Agreed with the client, logged next to the feedback.</span></span>
+        </button></li>
+        <li><button type="button" class="diag-row" aria-pressed="false" id="dg-3">
+          <span class="cell cause"><span class="label">Gap 3</span><b>No shared QA protocol</b><span>Modeller and team checks, with owners undefined.</span></span>
+          <span class="cell effect"><span class="label">Result</span><b>Errors slip through</b><span>Wrong CNC elements, fixes missed on other buildings.</span></span>
+          <span class="cell fix"><span class="label">Fix</span><b>QA checklist and owners</b><span>A gate before every IFC send-out and CNC export. Now the live QA model risk monitor.</span></span>
+        </button></li>
+        <li><button type="button" class="diag-row" aria-pressed="false" id="dg-4">
+          <span class="cell cause"><span class="label">Manual chain</span><b>Manual naming and counts</b><span>Same product, several names. Quantities multiplied by hand.</span></span>
+          <span class="cell effect"><span class="label">Result</span><b>Mismatches in pricing</b><span>CNC drawings vs project count, double checks.</span></span>
+          <span class="cell fix"><span class="label">Fix</span><b>Automate in the database</b><span>5 modelling steps removed, 3 pricing checks merged.</span></span>
+        </button></li>
+      </ul>
+      <p class="diag-foot">Only one of the four fixes needed AI or a script. The other three were process changes. Every office has its own version of these gaps, and a workflow audit finds yours.</p>
+    </div>
+
+    <div class="demos">
+      <a class="demo" href="https://claude.ai/artifact/RPNG2em2eEsqBP9pPPWCmb" target="_blank" rel="noopener">
+        <div class="demo-media"><img src="assets/shot-sim.webp" alt="Map of Andalusia in the housing simulator, with sale prices by province and Málaga selected" width="1200" height="487" loading="lazy"></div>
+        <div class="demo-body">
+          <p class="label">Free web tool · research</p>
+          <h3>Industrialised housing simulator</h3>
+          <p>Place a plot in Andalusia and compare traditional construction, 2D timber panels and 3D timber modules on homes, cost, time, margin and carbon. Plans are checked against the Spanish Building Code.</p>
+          <p class="figs"><span>25 homes, 1,200 m² plot in Málaga:</span><span><b class="num">15.4 → 8.4</b> months to build</span><span><b class="num">−68 %</b> workers on site</span><span><b class="num">−29 %</b> carbon over 50 years</span></p>
+          <p class="small">Example assumptions, to be confirmed with manufacturers.</p>
+          <span class="go">Open the simulator ↗</span>
+        </div>
+      </a>
+      <a class="demo" href="https://claude.ai/artifact/3QLrsiSnGYdBSrCZAEEDr5" target="_blank" rel="noopener">
+        <div class="demo-media"><video muted loop playsinline preload="none" poster="assets/demo-plans-poster-en.webp" width="1280" height="760" aria-label="Floor plan generator demo: importing a plan, the cost overview, new layouts and the price comparison"><source src="assets/demo-plans-en.mp4" type="video/mp4"></video></div>
+        <div class="demo-body">
+          <p class="label">Free prototype · built with AI</p>
+          <h3>Floor plan generator</h3>
+          <p>Import your floor plan from a photo, a DXF or a list of rooms and get a free renovation cost overview. Then generate and rank new layouts, each with dimensioned plans, a room schedule and the price difference.</p>
+          <span class="go">Open the live demo ↗</span>
+        </div>
+      </a>
+    </div>
+
+    <div class="lib-head">
+      <h3>Eleven of the tools I’ve built</h3>
+      <div class="filters" role="group" aria-label="Filter tools">
+        <button type="button" aria-pressed="true" data-f="all">All</button>
+        <button type="button" aria-pressed="false" data-f="drafting">Drafting</button>
+        <button type="button" aria-pressed="false" data-f="quantities">Quantities</button>
+        <button type="button" aria-pressed="false" data-f="quality">Quality</button>
+        <button type="button" aria-pressed="false" data-f="design">Design</button>
+      </div>
+    </div>
+    <ul class="tools">
+      <li><details class="tool" data-cat="design"><summary><img src="assets/tool-sim.webp" alt="" width="640" height="369" loading="lazy"><span class="t-name"><b>Industrialised housing simulator</b><span>From a plot in Andalusia to homes, cost, time, carbon and code-checked plans in seconds.</span></span><span class="t-meta"><span class="t-cat">Research</span><span class="plus" aria-hidden="true">+</span></span></summary>
+        <div class="t-body"><figure><img src="assets/shot-sim-res.webp" alt="Results summary comparing traditional construction, 2D panels and 3D modules" width="1040" height="600" loading="lazy"><figcaption>Results: three ways to build, side by side</figcaption></figure>
+        <div class="t-text"><p>A free feasibility tool for affordable housing in Andalusia, built with Claude as part of my research into responsible AI for the built environment.</p><ul><li>Homes, cost, time, margin, site workers and life-cycle carbon for three construction systems</li><li>Floor plans generated and checked against the Spanish Building Code (CTE DB-HS 3, DB-SUA)</li><li>Every assumption visible and editable, with its source</li><li>8 provinces mapped, with municipalities</li></ul><div class="stack"><span>Claude</span><span>JavaScript</span><span>CTE (BOE)</span><span>Open data</span></div></div></div></details></li>
+
+      <li><details class="tool" data-cat="quality"><summary><img src="assets/tool-qa.webp" alt="" width="640" height="369" loading="lazy"><span class="t-name"><b>QA model risk monitor</b><span>Scores model risk 0–100 live, against LOD / LOI and NAA.K.T.</span></span><span class="t-meta"><span class="t-cat">Quality</span><span class="plus" aria-hidden="true">+</span></span></summary>
+        <div class="t-body"><figure><img src="assets/tool-qa.webp" alt="Illustration of the QA model risk monitor" width="640" height="369" loading="lazy"></figure>
+        <div class="t-text"><p>The QA checklist from the diagnosis, turned into a floating panel that updates while you model. See sheet A-02 for how it scores.</p><ul><li>Target LOD / LOI per project stage, from none to 500, with the share of elements that reach it</li><li>0.8 s recheck after every model change</li><li>1 click jumps to the failing elements</li></ul><div class="stack"><span>Python</span><span>RhinoCommon</span><span>Rhino 8</span><span>Claude Code</span></div></div></div></details></li>
+
+      <li><details class="tool" data-cat="quantities"><summary><img src="assets/tool-extrude.webp" alt="" width="640" height="369" loading="lazy"><span class="t-name"><b>Extrude by layer</b><span>Plan to 3D per layer, with quantity export and a price calculator.</span></span><span class="t-meta"><span class="t-cat">Quantities</span><span class="plus" aria-hidden="true">+</span></span></summary>
+        <div class="t-body"><figure><img src="assets/shot-extrude.webp" alt="The Extrude by layer panel next to extruded interior walls" width="1200" height="682" loading="lazy"><figcaption>Interior walls extruded to 5,000 mm from the plan</figcaption></figure>
+        <div class="t-text"><p>A Rhino panel that turns a 2D floor plan into 3D by layer. The same layers feed the quantities and a built-in price calculator. With live mode on, the 3D follows every change to the plan.</p><ul><li>Height, Z offset and line thickness per layer, sub-layers included</li><li>Quantity export with areas and perimeters, as CSV and PDF</li><li>Price per m² of wall face with waste %, margin, overhead and VAT</li></ul><div class="stack"><span>Python</span><span>RhinoCommon</span><span>reportlab</span><span>Claude Code</span></div></div></div></details></li>
+
+      <li><details class="tool" data-cat="drafting"><summary><img src="assets/tool-bathroom.webp" alt="" width="640" height="369" loading="lazy"><span class="t-name"><b>Bathroom hatch</b><span>One click per bathroom: hatch to the inside face of the walls, furniture cut out.</span></span><span class="t-meta"><span class="t-cat">Drafting</span><span class="plus" aria-hidden="true">+</span></span></summary>
+        <div class="t-body"><figure><img src="assets/tool-bathroom.webp" alt="Illustration: bathroom hatched in teal with a cursor" width="640" height="369" loading="lazy"><figcaption>Schematic of the result, not a project drawing</figcaption></figure>
+        <div class="t-text"><p>Every tender produces dozens of apartment plans that need the same graphic treatment. Click inside each bathroom and the script finds the room and draws one hatch, following the office layer standard.</p><ul><li>Stops at the door, using a closing line between the two door frames</li><li>Cuts around sanitary furniture and runs under wheelchair turning circles</li><li>Re-clicking a room replaces its hatch; one undo step per room</li></ul><p class="t-limit"><span class="tag tag-warn">Limit</span><span>When a room isn’t closed it falls back to a ray-cast rectangle, and says so.</span></p><div class="stack"><span>Python</span><span>RhinoCommon</span><span>Rhino 7 + 8</span><span>Claude Code</span></div></div></div></details></li>
+
+      <li><details class="tool" data-cat="drafting"><summary><img src="assets/tool-floor.webp" alt="" width="640" height="369" loading="lazy"><span class="t-name"><b>Floor hatch</b><span>One floor hatch per apartment, with the area in m² per plan.</span></span><span class="t-meta"><span class="t-cat">Drafting</span><span class="plus" aria-hidden="true">+</span></span></summary>
+        <div class="t-body"><figure><img src="assets/tool-floor.webp" alt="Illustration: three apartment plans with floor hatches and area labels" width="640" height="369" loading="lazy"></figure>
+        <div class="t-text"><p>Window-select whole plans and the script draws one floor hatch per apartment, ready for the area schedule.</p><ul><li>Detects the inside face of facades and separation walls</li><li>Goes around walls, columns, furniture and door frames</li><li>Leaves bathrooms, shafts and closed spaces white</li></ul><div class="stack"><span>Python</span><span>RhinoCommon</span><span>Rhino 7 + 8</span><span>Claude Code</span></div></div></div></details></li>
+
+      <li><details class="tool" data-cat="quantities"><summary><img src="assets/tool-module.webp" alt="" width="640" height="369" loading="lazy"><span class="t-name"><b>Module size report</b><span>Groups identical module sizes and flags objects that aren’t modules.</span></span><span class="t-meta"><span class="t-cat">Quantities</span><span class="plus" aria-hidden="true">+</span></span></summary>
+        <div class="t-body"><figure><img src="assets/tool-module.webp" alt="Illustration: stacked modules grouped by size with a flagged item" width="640" height="369" loading="lazy"></figure>
+        <div class="t-text"><p>Reads the Rhino tender model directly and hands estimators clean quantities, as CSV files and a print-ready PDF.</p><ul><li>Extrusions measured exactly from their profile; Breps from volume ÷ height</li><li>Sizes rounded to a set step (5 mm by default), so parametric noise collapses into readable module types</li><li>Optional split by building, floor, phase or wing</li></ul><p class="t-limit"><span class="tag tag-ok">Counted</span><span>Floor plates or reference boxes left on the layer are flagged. 0 objects dropped silently.</span></p><div class="stack"><span>Python</span><span>RhinoCommon</span><span>Rhino 7 + 8</span><span>Claude Code</span></div></div></div></details></li>
+
+      <li><details class="tool" data-cat="quantities"><summary><img src="assets/tool-standalone.webp" alt="" width="640" height="369" loading="lazy"><span class="t-name"><b>Module size report, standalone</b><span>The same report run straight on a .3dm file, no Rhino licence.</span></span><span class="t-meta"><span class="t-cat">Quantities</span><span class="plus" aria-hidden="true">+</span></span></summary>
+        <div class="t-body"><figure><img src="assets/tool-standalone.webp" alt="Terminal running the standalone module size report" width="640" height="369" loading="lazy"></figure>
+        <div class="t-text"><p>The module size report as a standalone Python script. It reads any .3dm file, so estimators can run it without opening Rhino or holding a licence.</p><ul><li>Prompts for layer, rounding, thresholds and output folder</li><li>Same CSV files and PDF as the version inside Rhino</li><li>Every skipped object is counted and reported</li></ul><div class="stack"><span>Python</span><span>rhino3dm</span><span>reportlab</span><span>Claude Code</span></div></div></div></details></li>
+
+      <li><details class="tool" data-cat="quantities"><summary><img src="assets/tool-facade.webp" alt="" width="640" height="369" loading="lazy"><span class="t-name"><b>Facade area report</b><span>Cladding area per facade object, ready for the calculation.</span></span><span class="t-meta"><span class="t-cat">Quantities</span><span class="plus" aria-hidden="true">+</span></span></summary>
+        <div class="t-body"><figure><img src="assets/tool-facade.webp" alt="Illustration: facade grid with area per facade" width="640" height="369" loading="lazy"></figure>
+        <div class="t-text"><p>Measures cladding and render area per facade object, checked against a real project model. A wall run drawn in plan counts as profile perimeter × height; on polysurfaces, only faces steeper than 60° count as facade.</p><ul><li>Adjustable tilt threshold for sloped glazing and canopies</li><li>Anything skipped is counted, so nothing disappears silently</li></ul><p class="t-limit"><span class="tag tag-warn">Flagged</span><span>Tapered extrusions are flagged instead of reported as exact.</span></p><div class="stack"><span>Python</span><span>RhinoCommon</span><span>Rhino 7 + 8</span><span>Claude Code</span></div></div></div></details></li>
+
+      <li><details class="tool" data-cat="drafting"><summary><img src="assets/tool-floorplans.webp" alt="" width="640" height="369" loading="lazy"><span class="t-name"><b>Automated floor plans</b><span>Floor plan creation automated with Claude.</span></span><span class="t-meta"><span class="t-cat">Drafting · AI</span><span class="plus" aria-hidden="true">+</span></span></summary>
+        <div class="t-body"><figure><img src="assets/tool-floorplans.webp" alt="Illustration: three generated apartment plans" width="640" height="369" loading="lazy"></figure>
+        <div class="t-text"><p>An AI-assisted workflow, built with Claude, that automates the creation of floor plans for timber rowhouses and multi-storey buildings. A good example of where AI helps with repetitive drafting.</p><div class="stack"><span>Claude</span><span>Rhino</span><span>Python</span></div></div></div></details></li>
+
+      <li><details class="tool" data-cat="design"><summary><img src="assets/tool-massing.webp" alt="" width="640" height="369" loading="lazy"><span class="t-name"><b>Massing</b><span>Parametric massing studies for timber rowhouses and multi-storey buildings.</span></span><span class="t-meta"><span class="t-cat">Design</span><span class="plus" aria-hidden="true">+</span></span></summary>
+        <div class="t-body"><figure><img src="assets/tool-massing.webp" alt="Illustration: timber building masses" width="640" height="369" loading="lazy"></figure>
+        <div class="t-text"><p>Parametric workflows for massing studies, so design options can be compared early. Built for modular timber systems, and it feeds the shadow studies.</p><div class="stack"><span>Rhino</span><span>Python</span></div></div></div></details></li>
+
+      <li><details class="tool" data-cat="design"><summary><img src="assets/tool-shadow.webp" alt="" width="640" height="369" loading="lazy"><span class="t-name"><b>Shadow tooling</b><span>Shadow studies run directly on the massing.</span></span><span class="t-meta"><span class="t-cat">Analysis</span><span class="plus" aria-hidden="true">+</span></span></summary>
+        <div class="t-body"><figure><img src="assets/tool-shadow.webp" alt="Illustration: building masses with a sun and cast shadows" width="640" height="369" loading="lazy"></figure>
+        <div class="t-text"><p>Shadow studies that run on the same model as the massing, so the effect of each design option on its surroundings is visible early.</p><div class="stack"><span>Grasshopper</span><span>Rhino</span></div></div></div></details></li>
+    </ul>
+  </div>
+</section>
+
+<!-- A-04 · research -->
+<section class="sheet" id="research" aria-labelledby="h-research">
+  <div class="wrap">
+    <div class="sheet-head">
+      <div>
+        <div class="sheet-no"><b>A-04</b><span class="label">Research</span></div>
+        <h2 id="h-research">What I learn, I publish. For free.</h2>
+      </div>
+      <p class="lede">I’m not selling software. My research and the guides that come out of it are free to read and use at work, in English and Spanish. No sign-up needed.</p>
+    </div>
+    <a class="paper" href="article.html">
+      <div class="paper-main">
+        <p class="label">R-01 · Article · 5 November 2026 · 6 min read</p>
+        <h3>AI in AEC: From hype to actual work</h3>
+        <p>Adoption is growing fast, but most firms can’t show what AI has earned them. Why it stalls in small and mid-sized firms, the prompt-and-pray habit, and why the real return starts with data and governance.</p>
+        <span class="go">Read the article →</span>
+      </div>
+      <dl class="paper-figs">
+        <div><dt>UK practices using AI, 2025</dt><dd>59%</dd></div>
+        <div><dt>With a formal AI policy</dt><dd>15%</dd></div>
+        <div><dt>Firms with high confidence in their data</dt><dd>29%</dd></div>
+      </dl>
+    </a>
+    <div class="sub-head" id="guides"><h3>Practical guides</h3><p class="small">7 guides · PDF · English and Spanish</p></div>
+    <ul class="guides">
+      <li class="guide"><img src="assets/guide-cover-en.webp" alt="" width="400" height="566" loading="lazy"><div class="guide-body"><h3>Start your AI journey</h3><p>What AI can and can’t do, a 5-step roadmap, a readiness check, a value worksheet and a 90-day plan.</p><p class="meta">10 pages · roadmap · readiness check</p><div class="links"><a class="btn btn-primary btn-small" href="assets/LAAI-AI-guide-EN.pdf" data-pdf="LAAI-AI-guide-EN.pdf">Download PDF</a><a class="es" href="assets/LAAI-guia-IA-ES.pdf" data-pdf="LAAI-guia-IA-ES.pdf" lang="es">En español</a></div></div></li>
+      <li class="guide"><img src="assets/risks-cover-en.webp" alt="" width="400" height="566" loading="lazy"><div class="guide-body"><h3>Before you implement AI: the risks to know</h3><p>8 risks with real examples, a risk map, the EU rules to know and a one-page AI policy template.</p><p class="meta">10 pages · 8 risks · policy template</p><div class="links"><a class="btn btn-primary btn-small" href="assets/LAAI-AI-risks-EN.pdf" data-pdf="LAAI-AI-risks-EN.pdf">Download PDF</a><a class="es" href="assets/LAAI-riesgos-IA-ES.pdf" data-pdf="LAAI-riesgos-IA-ES.pdf" lang="es">En español</a></div></div></li>
+      <li class="guide"><img src="assets/tools-cover-en.webp" alt="" width="400" height="566" loading="lazy"><div class="guide-body"><h3>AI tools for construction: a practical map</h3><p>The main kinds of AI tools, with real examples, when to buy and when to build, and a scorecard to compare them.</p><p class="meta">10 pages · 8 categories · scorecard</p><div class="links"><a class="btn btn-primary btn-small" href="assets/LAAI-AI-tools-EN.pdf" data-pdf="LAAI-AI-tools-EN.pdf">Download PDF</a><a class="es" href="assets/LAAI-herramientas-IA-ES.pdf" data-pdf="LAAI-herramientas-IA-ES.pdf" lang="es">En español</a></div></div></li>
+      <li class="guide"><img src="assets/strategy-cover-en.webp" alt="" width="400" height="566" loading="lazy"><div class="guide-body"><h3>You don’t need 20 AI tools. You need a strategy.</h3><p>Why collecting subscriptions rarely saves time, 6 steps to build a strategy, and a full example for a 25-person office.</p><p class="meta">11 pages · example strategy · 12-month roadmap</p><div class="links"><a class="btn btn-primary btn-small" href="assets/LAAI-AI-strategy-EN.pdf" data-pdf="LAAI-AI-strategy-EN.pdf">Download PDF</a><a class="es" href="assets/LAAI-estrategia-IA-ES.pdf" data-pdf="LAAI-estrategia-IA-ES.pdf" lang="es">En español</a></div></div></li>
+      <li class="guide"><img src="assets/terms-cover-en.webp" alt="" width="400" height="566" loading="lazy"><div class="guide-body"><h3>AI terms explained: a glossary for construction</h3><p>76 AI terms in plain language, from tokens to agents, with examples from architecture and building.</p><p class="meta">11 pages · 76 terms</p><div class="links"><a class="btn btn-primary btn-small" href="assets/LAAI-AI-terms-EN.pdf" data-pdf="LAAI-AI-terms-EN.pdf">Download PDF</a><a class="es" href="assets/LAAI-terminos-IA-ES.pdf" data-pdf="LAAI-terminos-IA-ES.pdf" lang="es">En español</a></div></div></li>
+      <li class="guide"><img src="assets/aiact-cover-en.webp" alt="" width="400" height="566" loading="lazy"><div class="guide-body"><h3>The EU AI Act: what it means for construction</h3><p>Risk levels, key dates, your role and your duties, with 20 construction examples. Updated for the 2026 Digital Omnibus changes.</p><p class="meta">12 pages · key dates · 10-step checklist</p><div class="links"><a class="btn btn-primary btn-small" href="assets/LAAI-AI-Act-EN.pdf" data-pdf="LAAI-AI-Act-EN.pdf">Download PDF</a><a class="es" href="assets/LAAI-Reglamento-IA-ES.pdf" data-pdf="LAAI-Reglamento-IA-ES.pdf" lang="es">En español</a></div></div></li>
+      <li class="guide edu"><img src="assets/edu-cover-en.webp" alt="" width="400" height="566" loading="lazy"><div class="guide-body"><p class="label">For schools and universities</p><h3>AI strategy guide, education edition</h3><p>How to bring AI into teaching with shared rules, an AI level for every assignment, and assessment that still measures learning.</p><p class="meta">11 pages · AI levels for assignments</p><div class="links"><a class="btn btn-primary btn-small" href="assets/LAAI-AI-strategy-education-EN.pdf" data-pdf="LAAI-AI-strategy-education-EN.pdf">Download PDF</a><a class="es" href="assets/LAAI-estrategia-IA-educacion-ES.pdf" data-pdf="LAAI-estrategia-IA-educacion-ES.pdf" lang="es">En español</a></div></div></li>
+    </ul>
+    <p class="guide-note" id="guide-note" aria-live="polite">If a download doesn’t start, email me at jilavulavinia@gmail.com and I’ll send you the guide.</p>
+  </div>
+</section>
+
+<!-- A-05 · about, working together, contact -->
+<section class="sheet" id="about" aria-labelledby="h-about">
+  <div class="wrap">
+    <div class="sheet-no"><b>A-05</b><span class="label">About · working together</span></div>
+    <div class="about">
+      <div class="about-text">
+        <h2 id="h-about" style="margin-bottom:8px">Hello, I’m Lavinia.</h2>
+        <p class="first">I’m an architectural technologist. I’ve spent my career in sustainable timber construction and BIM, and the last few years bringing AI into that work, one tested tool at a time.</p>
+        <p>I come from Italy, studied and worked in Denmark, and now work from Málaga, Spain. For the last four years I’ve worked on LVL modular timber systems across the whole life of a project: winning the client, pricing, modelling, production and reporting.</p>
+        <p>Along the way I helped bring AI into our daily work where it actually pays off. There were many trials and errors, and the tools that came out of them now set our quality standard. Cheaper homes only count if they are built to last, which is why I stay in sustainable, industrialised timber construction.</p>
+        <p>I don’t think knowledge like this belongs behind a paywall. I want to share it with companies and students who want to understand the housing gap and help close it.</p>
+        <div class="chips" aria-label="Software I work with"><span>Rhino 3D</span><span>Grasshopper</span><span>Python / RhinoCommon</span><span>Revit</span><span>Dynamo</span><span>Claude Code</span><span>IFC</span><span>Autodesk Suite</span><span>Twinmotion</span><span>MS Project</span><span>Figma</span><span>Adobe CC</span></div>
+      </div>
+      <div class="cv">
+        <div><p class="label" style="margin-bottom:10px">Experience</p>
+          <ul class="cv-list">
+            <li><span class="yr">2024 – now</span><span><b>Technical Designer &amp; BIM</b><span class="sub">Sustainer · modular LVL timber</span></span></li>
+            <li><span class="yr">2023 – 2024</span><span><b>Junior BIM Coordinator</b><span class="sub">DIBS42 · Revit library, templates, MEP team lead</span></span></li>
+            <li><span class="yr">2022 – 2023</span><span><b>Junior BIM Engineer</b><span class="sub">Compact Brandpreventie · Dynamo, IFC checks</span></span></li>
+            <li><span class="yr">2021</span><span><b>Constructing Architect intern</b><span class="sub">Vallentin Haugland</span></span></li>
+          </ul></div>
+        <div><p class="label" style="margin-bottom:10px">Education</p>
+          <ul class="cv-list">
+            <li><span class="yr">2026</span><span><b>AI Fluency: Framework &amp; Foundations</b><span class="sub">Anthropic Academy</span></span></li>
+            <li><span class="yr">2025</span><span><b>Construction Project Management</b><span class="sub">Columbia University</span></span></li>
+            <li><span class="yr">2022</span><span><b>Spatial Computational Thinking</b><span class="sub">NUS</span></span></li>
+            <li><span class="yr">2018 – 2022</span><span><b>BA Architectural Technology &amp; Construction Management</b><span class="sub">VIA University College, Denmark</span></span></li>
+          </ul></div>
+        <div><p class="label" style="margin-bottom:10px">Languages</p>
+          <div class="langs"><span><b>Italian</b> native</span><span><b>Spanish</b> native</span><span><b>Romanian</b> native</span><span><b>English</b> fluent</span><span><b>French</b> working</span><span><b>Danish</b> working</span></div></div>
+      </div>
+    </div>
+
+    <div class="work" id="work">
+      <div>
+        <h3 class="serif" style="font-size:30px;line-height:1.15;margin-bottom:22px">How we’d work together</h3>
+        <ol class="timeline">
+          <li class="free"><span class="when">Free · half a day</span><b>A first session on one of your tasks</b><p>We work on a real task together and get to know each other. I tell you honestly where AI would pay off for your team, and where it wouldn’t.</p></li>
+          <li><span class="when">Up to 1 hour · by call or in person</span><b>Find the issues and possible solutions</b><p>We look at your daily work and find where time and money are lost.</p></li>
+          <li><b>Choose the route</b>
+            <div class="routes"><div><b>A · A tool for one task</b>A Rhino script, a quantity report or a model check for the task that costs the most time.</div><div><b>B · Bringing AI into your company</b>We research which AI tools fit your work and plan how to bring them in.</div></div></li>
+          <li><span class="when">Fixed scope · fixed deadline</span><b>Agree scope, deadline and price</b><p>Everything is fixed before work starts, so there are no surprises.</p></li>
+          <li><span class="when">Training · documentation</span><b>Teach, show and hand over</b><p>Your team learns the solution on your own project files. You own the result.</p></li>
+          <li><span class="when">Optional</span><b>Follow-up sessions</b><p>To answer questions, adapt the tools as your projects change, or train new colleagues.</p></li>
+        </ol>
+        <p class="small" style="margin-top:16px">In-person sessions: travel expenses are charged to the company.</p>
+      </div>
+      <div class="audit" role="group" aria-labelledby="h-audit">
+        <p class="label">If you want a deeper look</p>
+        <h3 id="h-audit">The workflow audit</h3>
+        <p>I map one workflow, for example tender to production, and show where the hours go, what each problem costs per year, and what to do about it.</p>
+        <div class="facts"><span>3 weeks</span><span>About 6 h of your team’s time</span><span>Fixed price</span><span>On site in Málaga or online</span><span>NDA if you need one</span></div>
+        <p class="label" style="margin-top:6px">You receive</p>
+        <ul><li>A written report and a process map with hours per step</li><li>The root causes of rework, not only the symptoms</li><li>A ranked list of opportunities with the estimated saving per year</li><li>A 90-day plan with the first three actions</li></ul>
+        <p>Each problem lands in one of three groups: fix the process, automate it with a tool, or use AI. Often the cheapest win is the process.</p>
+      </div>
+    </div>
+    <p class="who"><b>I work with</b> architecture offices, modular and timber builders, contractors and estimators, BIM and design teams, real estate developers, and universities. Sessions in English, Spanish or Italian.</p>
+
+    <div class="contact" id="contact">
+      <div>
+        <p class="label">Contact</p>
+        <h2 style="margin-top:12px">Tell me which task your team is tired of.</h2>
+        <p>Book your free first half-day session. It helps if you send these ahead of the call:</p>
+        <ol><li>The type of projects you work on and your main software</li><li>One or two tasks that repeat on every project</li><li>Roughly how many people do that work</li></ol>
+      </div>
+      <div class="lines">
+        <div class="line"><div><span class="label">Email</span><a class="val" id="v-email" href="mailto:jilavulavinia@gmail.com?subject=First%20session">jilavulavinia@gmail.com</a></div><button type="button" class="copy" data-copy="v-email">Copy</button></div>
+        <div class="line"><div><span class="label">Phone · WhatsApp</span><a class="val" id="v-phone" href="tel:+34611941879">+34 611 941 879</a></div><button type="button" class="copy" data-copy="v-phone">Copy</button></div>
+        <div class="line"><div><span class="label">Based in</span><span class="val">Málaga, Spain · CET</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-tb">
+      <div><span>Project</span>LAAI · AI for construction</div>
+      <div><span>Drawn by</span>L. L. Jilavu</div>
+      <div><span>Location</span>Málaga, ES</div>
+      <div><span>Rev.</span>2026-11</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  // A-03 diagnosis: each row toggles its fix; one button applies all
+  var rows = [].slice.call(document.querySelectorAll('.diag-row'));
+  var n = document.getElementById('diag-n'), all = document.getElementById('diag-all');
+  function sync() {
+    var k = rows.filter(function (r) { return r.getAttribute('aria-pressed') === 'true'; }).length;
+    n.textContent = k; all.textContent = k === rows.length ? 'Show the problem' : 'Apply all fixes';
+  }
+  rows.forEach(function (r) { r.addEventListener('click', function () { r.setAttribute('aria-pressed', r.getAttribute('aria-pressed') === 'true' ? 'false' : 'true'); sync(); }); });
+  all.addEventListener('click', function () { var on = rows.some(function (r) { return r.getAttribute('aria-pressed') !== 'true'; }); rows.forEach(function (r) { r.setAttribute('aria-pressed', on ? 'true' : 'false'); }); sync(); });
+
+  // tool filter
+  var fbtns = [].slice.call(document.querySelectorAll('.filters button'));
+  var tools = [].slice.call(document.querySelectorAll('.tool'));
+  fbtns.forEach(function (b) { b.addEventListener('click', function () {
+    var f = b.dataset.f;
+    fbtns.forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+    tools.forEach(function (t) { t.parentElement.hidden = !(f === 'all' || t.dataset.cat === f); });
+  }); });
+
+  // copy buttons
+  document.querySelectorAll('.copy').forEach(function (b) { b.addEventListener('click', function () {
+    var el = document.getElementById(b.dataset.copy), txt = el.textContent.trim();
+    function selectIt() { var r = document.createRange(); r.selectNodeContents(el); var s = getSelection(); s.removeAllRanges(); s.addRange(r); }
+    function done(label) { b.textContent = label; setTimeout(function () { b.textContent = 'Copy'; }, 1600); }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(function () { done('Copied'); }, function () { selectIt(); done('Selected'); });
+    else { selectIt(); done('Selected'); }
+  }); });
+
+  // demo video: plays only while on screen, never with reduced motion
+  var v = document.querySelector('.demo video');
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (v && !reduce && 'IntersectionObserver' in window) {
+    new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { var p = v.play(); if (p && p.catch) p.catch(function () {}); } else v.pause(); }); }, { threshold: 0.4 }).observe(v);
+  }
+
+  // guide PDFs: inside claude.ai plain file links are blocked, so hand the file over through the
+  // viewer's downloads capability; on a normal web host the link works by itself.
+  var dl = null, note = document.getElementById('guide-note');
+  if (window.claude && typeof window.claude.use === 'function') window.claude.use('downloads').then(function (ns) { dl = ns; }, function () {});
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[data-pdf]');
+    if (!a || !dl) return;
+    e.preventDefault();
+    fetch(a.getAttribute('href')).then(function (r) { if (!r.ok) throw new Error('fetch'); return r.blob(); })
+      .then(function (blob) { return dl.save({ filename: a.dataset.pdf, data: blob }); })
+      .catch(function (err) {
+        if (err && (err.code === 'declined' || err.code === 'rate_limited')) return;
+        note.dataset.state = 'error';
+        note.textContent = 'That download couldn’t start here. Email me at jilavulavinia@gmail.com and I’ll send you the guide.';
+      });
+  });
+})();
+</script>
+</body>
+</html>

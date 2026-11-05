@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>AI in AEC: From hype to actual work | LAAI</title>
+<meta name="description" content="Why AI adoption stalls in small and mid-sized architecture, engineering and construction firms, and why the real return starts with data and governance. By Lavinia Lorena Jilavu.">
+<meta name="author" content="Lavinia Lorena Jilavu">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AI in AEC: From hype to actual work">
+<meta property="og:description" content="Why AI adoption stalls in small and mid-sized AEC firms, and why the real return starts with data and governance.">
+<meta property="article:published_time" content="2026-11-05">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap">
+<style>
+/* Layout: one drawing sheet in the LAAI set. A single reading column near 66ch, with a sheet header and a title block for the byline. */
+:root {
+  --sheet: #f2f3ef; --panel: #fafaf8; --ink: #16181a; --ink-2: #464a48; --ink-3: #676b68;
+  --line: #d2d5cf; --grid: rgba(22, 24, 26, .045);
+  --violet: #5b3fe0; --muted-bar: #b9bdb6;
+  --display: "Newsreader", Georgia, "Times New Roman", serif;
+  --body: "Geist", "Helvetica Neue", Arial, sans-serif;
+  --mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --r: 6px;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --sheet: #111312; --panel: #181b19; --ink: #eceee9; --ink-2: #bcc0ba; --ink-3: #959a94;
+    --line: #2d312e; --grid: rgba(236, 238, 233, .04); --violet: #a897ff; --muted-bar: #4a4f4b;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --sheet: #111312; --panel: #181b19; --ink: #eceee9; --ink-2: #bcc0ba; --ink-3: #959a94;
+  --line: #2d312e; --grid: rgba(236, 238, 233, .04); --violet: #a897ff; --muted-bar: #4a4f4b;
+  color-scheme: dark;
+}
+:root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--sheet); color: var(--ink); font: 400 17px/1.7 var(--body); -webkit-font-smoothing: antialiased; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--violet); outline-offset: 3px; border-radius: 2px; }
+h1, h2 { margin: 0; text-wrap: balance; }
+p, li { text-wrap: pretty; }
+.wrap { max-width: 760px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+@media (min-width: 760px) { .wrap { padding-left: max(32px, env(safe-area-inset-left, 0px)); padding-right: max(32px, env(safe-area-inset-right, 0px)); } }
+.label { font: 500 12px/1.3 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); }
+
+.top { border-bottom: 1px solid var(--line); }
+.top .wrap { max-width: 1224px; display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 64px; }
+.brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; font: 600 18px/1 var(--body); }
+.brand em { font-style: normal; color: var(--violet); }
+.logo { width: 26px; height: 26px; }
+.logo .f { fill: var(--violet); } .logo .s { fill: none; stroke: var(--violet); stroke-width: 1.6; }
+.back { font: 500 13px/1 var(--mono); color: var(--ink-2); text-decoration: none; padding: 10px 0; }
+.back:hover { color: var(--ink); }
+
+.head { padding-block: 56px 0; background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px); background-size: 36px 36px; border-bottom: 1px solid var(--line); }
+.sheet-no { display: flex; align-items: center; gap: 12px; margin-bottom: 22px; }
+.sheet-no b { font: 500 12px/1 var(--mono); letter-spacing: .08em; padding: 6px 8px; border: 1px solid var(--ink); border-radius: 3px; }
+h1 { font: 400 clamp(38px, 6vw, 62px)/1.05 var(--display); letter-spacing: -.025em; }
+h1 em { font-style: normal; color: var(--violet); }
+.standfirst { margin-top: 20px; font-size: 20px; line-height: 1.55; color: var(--ink-2); }
+.tblock { margin-top: 40px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: 1px solid var(--ink); border-bottom: 0; background: var(--panel); }
+.tblock div { padding: 12px 14px 14px; border-bottom: 1px solid var(--ink); border-right: 1px solid var(--line); min-width: 0; }
+.tblock div:last-child { border-right: 0; }
+.tblock dt { font: 500 10.5px/1.3 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 6px; }
+.tblock dd { margin: 0; font-size: 14.5px; line-height: 1.35; font-weight: 500; }
+@media (max-width: 520px) { .tblock { grid-template-columns: 1fr 1fr; } .tblock div:first-child { grid-column: 1 / -1; border-right: 0; } }
+
+article { padding-block: 48px 72px; }
+article > * + * { margin-top: 1.1em; }
+article h2 { margin-top: 2.2em; font: 400 32px/1.15 var(--display); letter-spacing: -.015em; }
+article h2 + p { margin-top: .7em; }
+article p { margin-bottom: 0; color: var(--ink-2); }
+article p strong, article li strong { color: var(--ink); font-weight: 600; }
+article a { color: var(--violet); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+article ul { padding-left: 0; list-style: none; display: grid; gap: 14px; }
+article ul li { position: relative; padding: 16px 18px 16px 20px; border: 1px solid var(--line); border-left: 3px solid var(--ink); border-radius: 3px; background: var(--panel); color: var(--ink-2); font-size: 16px; }
+.pull { margin-block: 1.6em; padding: 4px 0 4px 22px; border-left: 2px solid var(--violet); font: 400 italic 25px/1.4 var(--display); color: var(--ink); }
+.quote { margin-block: 1.6em 0; padding: 22px 24px; border: 1px solid var(--line); border-radius: var(--r); background: var(--panel); }
+.quote p { font: 400 italic 22px/1.45 var(--display); color: var(--ink); margin: 0; }
+.quote cite { display: block; margin-top: 12px; font: 400 12.5px/1.4 var(--mono); font-style: normal; color: var(--ink-3); }
+
+figure.chart { margin: 1.8em 0; padding: 24px; border: 1px solid var(--line); border-radius: var(--r); background: var(--panel); }
+.chart h3 { margin: 0; font: 600 16px/1.35 var(--body); }
+.chart .sub { margin-top: 2px; font-size: 13.5px; color: var(--ink-3); }
+.group { margin-top: 20px; display: grid; gap: 10px; }
+.group > .label { font-size: 10.5px; }
+.bar { display: grid; grid-template-columns: minmax(0, 190px) minmax(0, 1fr); gap: 14px; align-items: center; font-size: 14px; }
+.bar > span { color: var(--ink); }
+.track { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.fill { height: 18px; border-radius: 2px; background: var(--muted-bar); flex: none; }
+.fill.gov { background: var(--violet); }
+.track b { font: 600 13.5px/1 var(--body); font-variant-numeric: tabular-nums; }
+@media (max-width: 560px) { .bar { grid-template-columns: 1fr; gap: 4px; } }
+.chart figcaption { margin-top: 18px; padding-top: 12px; border-top: 1px dashed var(--line); font: 400 12px/1.5 var(--mono); color: var(--ink-3); }
+
+.sources { padding-block: 32px 24px; border-top: 1px solid var(--line); }
+.sources ol { margin: 14px 0 0; padding-left: 22px; display: grid; gap: 6px; font: 400 13px/1.5 var(--mono); color: var(--ink-3); }
+.sources a { color: var(--ink-2); }
+.next { margin-block: 16px 64px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding: 24px; border-radius: var(--r); background: var(--ink); color: var(--sheet); }
+.next p { margin: 0; font: 400 22px/1.3 var(--display); max-width: 30ch; }
+.btn { display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: 999px; background: var(--sheet); color: var(--ink); font: 500 15px/1 var(--body); text-decoration: none; }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="./#research" aria-label="LAAI, back to the home page">
+      <svg class="logo" viewBox="0 0 28 28" aria-hidden="true"><rect class="s" x="2" y="2" width="9" height="9" rx="1"/><rect class="f" x="2" y="15" width="9" height="9" rx="1"/><rect class="f" x="15" y="15" width="9" height="9" rx="1"/><path class="s" d="M11 6.5h8.5M19.5 15V10"/><circle class="f" cx="19.5" cy="6.5" r="3.2"/></svg>
+      <span>LA<em>AI</em></span>
+    </a>
+    <a class="back" href="./#research">← Back to research</a>
+  </div>
+</header>
+
+<main>
+<section class="head">
+  <div class="wrap">
+    <div class="sheet-no"><b>R-01</b><span class="label">Research · article</span></div>
+    <h1>AI in AEC: From hype <em>to actual work</em></h1>
+    <p class="standfirst">Adoption is growing fast, but most firms can’t show what AI has earned them. The return starts long before the first prompt.</p>
+    <dl class="tblock">
+      <div><dt>Written by</dt><dd>Lavinia Lorena Jilavu</dd></div>
+      <div><dt>Published</dt><dd><time datetime="2026-11-05">5 November 2026</time></dd></div>
+      <div><dt>Reading time</dt><dd>6 min</dd></div>
+    </dl>
+  </div>
+</section>
+
+<div class="wrap">
+<article>
+  <h2 style="margin-top:0">AEC as fertile ground for AI</h2>
+  <p>Architecture, engineering and construction is one of the largest industries in the world, and it still runs on a surprising amount of manual work. There are clear settings which cannot be run with AI, but the majority of the early phase design, up to the permit drawings phase, can.</p>
+  <p>We are looking at an incredible opportunity for AI development, the second biggest industry in the world. The market is worth between $11 and $16 trillion: a report from <a href="https://www.businesswire.com/news/home/20251002308109/en" target="_blank" rel="noopener">ResearchAndMarkets</a> puts it at $15.78 trillion in 2024, rising to $16.45 trillion in 2025. Deloitte’s more conservative figure is $11.39 trillion in 2024, growing to $16.11 trillion by 2030 (<a href="https://www.constructionowners.com/news/deloitte-global-construction-to-hit-16-trillion-by-2030" target="_blank" rel="noopener">Deloitte</a>).</p>
+  <p>However, half of the market margin is covered by 7 of the biggest companies in the world, dominating the entire scene. This is why AI application in AEC is fairly hard to document, and extrapolating data is essential if we want to look at it with the correct lens.</p>
+
+  <h2>Easier said than done for small and mid-sized firms</h2>
+  <p>Most of the sector does not look like Gensler or Arup. It is made up of small and medium practices that are only partly digitalized. These firms often use BIM on some projects, choose their tools on a “cheap to expensive” rating, receive documentation in PDF, don’t have an automatic system for internal checking, and use spreadsheets and email for everything else. For them, bringing AI in efficiently, safely and ethically is a real challenge.</p>
+  <p>The size gap shows up clearly in the data: large practices use AI far more than small ones, and few practices of any size have invested in governing it.</p>
+
+  <figure class="chart" aria-labelledby="chart-t">
+    <h3 id="chart-t">AI use rises with practice size, but few practices govern it</h3>
+    <p class="sub">Share of UK architecture practices, %</p>
+    <div class="group">
+      <p class="label">AI use on at least some projects, by practice size (RIBA 2026)</p>
+      <div class="bar"><span>Small practices</span><div class="track"><div class="fill" style="width:63%"></div><b>63%</b></div></div>
+      <div class="bar"><span>Medium-sized practices</span><div class="track"><div class="fill" style="width:84%"></div><b>84%</b></div></div>
+      <div class="bar"><span>Practices with 50+ staff</span><div class="track"><div class="fill" style="width:90%"></div><b>&gt;90%</b></div></div>
+    </div>
+    <div class="group">
+      <p class="label">Readiness, all practices (RIBA 2025)</p>
+      <div class="bar"><span>Invested in AI R&amp;D</span><div class="track"><div class="fill gov" style="width:20%"></div><b>&lt;20%</b></div></div>
+      <div class="bar"><span>Have a formal AI policy</span><div class="track"><div class="fill gov" style="width:15%"></div><b>15%</b></div></div>
+    </div>
+    <figcaption>Source: <a href="https://beale-law.com/?p=26975" target="_blank" rel="noopener">RIBA AI Report 2026</a> (use by size) and <a href="https://beale-law.com/?p=24669" target="_blank" rel="noopener">2025</a> (readiness), via Beale &amp; Co. The two groups come from different survey years. Bars drawn to scale.</figcaption>
+  </figure>
+
+  <h2>3 of the many whys</h2>
+  <p>Adoption is growing fast: the share of UK architecture practices using AI rose from 41% in 2024 to 59% in 2025 (<a href="https://www.riba.org/news/second-riba-ai-report-shows-surge-in-usage-among-uk-architects/" target="_blank" rel="noopener">RIBA</a>). So why does it still stall for so many firms?</p>
+  <ul>
+    <li><strong>Fear of the transition.</strong> A 2025 RICS survey found that 2 in 5 construction professionals worry about AI’s impact on their own roles, and that accuracy of AI outputs is their main concern (<a href="https://www.forconstructionpros.com/business/business-services/training-education/article/22967287/creative-itc-construction-firms-face-data-and-security-challenges-in-ai-adoption" target="_blank" rel="noopener">ForConstructionPros</a>). In architecture specifically, over two-thirds (67%) worry that AI will increase the risk of their work being imitated (<a href="https://www.riba.org/news/second-riba-ai-report-shows-surge-in-usage-among-uk-architects/" target="_blank" rel="noopener">RIBA</a>).</li>
+    <li><strong>Economics and risk.</strong> Firms that haven’t adopted AI cite risk, cost and integration challenges (<a href="https://www.buildingenclosureonline.com/articles/94250-new-bluebeam-report-shows-early-ai-adopters-in-aec-seeing-significant-roi-despite-uneven-adoption" target="_blank" rel="noopener">Bluebeam</a>). More than 40% name data-sharing security and IP risk as a barrier. Regulation adds to the uncertainty: 69% of respondents saw possible AI regulations as a major challenge, a point that lands especially well for a European audience facing the EU AI Act.</li>
+    <li><strong>“I don’t know where to start.”</strong> This may be the biggest barrier. In BST Global’s survey, 91% named identifying or proving use cases with business value as a top barrier, and only about 20% considered themselves at a mature or advanced level (<a href="https://www.enr.com/articles/60885-survey-most-aec-firms-arent-quite-prepared-for-ai-revolution" target="_blank" rel="noopener">ENR</a>). RICS found that 45% of firms have no AI implementation at all and another 34% are still running early pilots. Skills are part of the problem too: 32% of firms report a lack of training and skills development as a key challenge (<a href="https://www.hpac.com/technology/article/55238846/ai-use-growing-in-construction-new-report-finds" target="_blank" rel="noopener">HPAC</a>).</li>
+  </ul>
+
+  <h2>The prompt-and-pray AI</h2>
+  <p>That lack of training shows up in daily work. Most AEC firms using AI have never been taught how to use it, so the method is kinda simple: type a prompt, cross your fingers, wait for magic.</p>
+  <p>We’ve all been there. A tender lands on your desk, the deadline is tomorrow, and you think: this is exactly what AI is for. So you open Claude and type, “Hey, I have this tender to analyze, can you do it for me?” Thirty seconds later, Claude hands back a flawless analysis that catches every clause and every risk, and you take the afternoon off.</p>
+  <p>Nah. That’s not what happens, is it?</p>
+  <p>What you usually get is a tidy little summary, shorter than you hoped and lighter on detail than you needed. Not wrong, exactly. Just not what you had in mind.</p>
+  <p class="pull">That’s the tricky part of working with AI: ask vaguely, and it will answer confidently, just not the question you meant.</p>
+  <p>But is this really all AI can deliver? Or are there many more layers to consider before saying “X firm is adopting AI”?</p>
+
+  <h2>The ROI paradox</h2>
+  <p>AI can amplify almost everything a firm does, and today’s models can take in more information than ever before. Companies are betting heavily on it: 85% of organizations raised their AI spending last year, yet only 6% saw a measurable return within twelve months (<a href="https://www.hso.com/blog/the-ai-roi-paradox-and-opportunity/" target="_blank" rel="noopener">Deloitte, October 2025, via HSO</a>).</p>
+  <p>AEC is no exception, because using AI and getting value from it are two different things. In Unanet’s 2026 AEC Inspire Report, 75% of roughly 300 U.S. AEC leaders said they use AI, but only 29% had high confidence in the data behind it (<a href="https://advisoraisolutions.io/blog/aec-ai-paradox-75-using-only-29-trust-data-underneath" target="_blank" rel="noopener">via Advisor AI Solutions</a>).</p>
+  <p>So what is the AI ROI paradox in AEC? Put simply, firms are spending on AI without the numbers to prove it pays off. Few can say how much AI has saved them in financial terms, and fewer still can trace a business decision back to it and measure the outcome.</p>
+  <p>The firms that do see returns tend to start with a clear use case. Among AI users in a 2025 Bluebeam survey, 68% said they had saved at least $50,000, and nearly half had saved 500–1,000 hours (<a href="https://www.geoweeknews.com/bluebeam-report-looks-at-ai-adoption-in-the-aec-sector" target="_blank" rel="noopener">Bluebeam</a>).</p>
+  <p>To close, the real return on AI starts long before the first prompt, with the unglamorous work of structuring, cleaning and connecting data. A well-structured BIM model is exactly that kind of data source, which makes BIM maturity a prerequisite for AI in AEC. But data alone is not enough: firms also need proper governance of their AI systems, not just a prompt-and-pray approach.</p>
+  <figure class="quote">
+    <p>“The enthusiasm is there, and so is the investment. The trouble is that the strategy usually isn’t.”</p>
+    <cite>Touseef Zafar, HSO</cite>
+  </figure>
+</article>
+
+<section class="sources" aria-labelledby="src-t">
+  <p class="label" id="src-t">Sources</p>
+  <ol>
+    <li><a href="https://www.businesswire.com/news/home/20251002308109/en" target="_blank" rel="noopener">ResearchAndMarkets – Construction Market Report 2025</a></li>
+    <li><a href="https://www.constructionowners.com/news/deloitte-global-construction-to-hit-16-trillion-by-2030" target="_blank" rel="noopener">Deloitte – Global Powers of Construction</a></li>
+    <li><a href="https://www.geoweeknews.com/bluebeam-report-looks-at-ai-adoption-in-the-aec-sector" target="_blank" rel="noopener">Bluebeam AEC Technology Outlook 2026 (Geo Week News)</a></li>
+    <li><a href="https://www.enr.com/articles/60885-survey-most-aec-firms-arent-quite-prepared-for-ai-revolution" target="_blank" rel="noopener">BST Global AI + Data Insights 2025 (ENR)</a></li>
+    <li><a href="https://www.forconstructionpros.com/business/business-services/training-education/article/22967287/creative-itc-construction-firms-face-data-and-security-challenges-in-ai-adoption" target="_blank" rel="noopener">RICS survey (ForConstructionPros)</a></li>
+    <li><a href="https://www.riba.org/news/second-riba-ai-report-shows-surge-in-usage-among-uk-architects/" target="_blank" rel="noopener">RIBA – Second AI Report</a></li>
+    <li><a href="https://beale-law.com/?p=24669" target="_blank" rel="noopener">RIBA AI Report 2025 (Beale &amp; Co)</a></li>
+    <li><a href="https://beale-law.com/?p=26975" target="_blank" rel="noopener">RIBA AI Report 2026 (Beale &amp; Co)</a></li>
+    <li><a href="https://www.hpac.com/technology/article/55238846/ai-use-growing-in-construction-new-report-finds" target="_blank" rel="noopener">Bluebeam 2025 report (HPAC)</a></li>
+    <li><a href="https://www.buildingenclosureonline.com/articles/94250-new-bluebeam-report-shows-early-ai-adopters-in-aec-seeing-significant-roi-despite-uneven-adoption" target="_blank" rel="noopener">Bluebeam early adopters report (Building Enclosure)</a></li>
+    <li><a href="https://advisoraisolutions.io/blog/aec-ai-paradox-75-using-only-29-trust-data-underneath" target="_blank" rel="noopener">The AEC AI Paradox (Advisor AI Solutions)</a></li>
+    <li><a href="https://www.hso.com/blog/the-ai-roi-paradox-and-opportunity/" target="_blank" rel="noopener">The AI ROI Paradox (HSO, Touseef Zafar)</a></li>
+  </ol>
+</section>
+
+<aside class="next">
+  <p>Want to start with one task, one model and clear data rules?</p>
+  <a class="btn" href="./#contact">Book a free first session</a>
+</aside>
+</div>
+</main>
+</body>
+</html>
