@@ -151,6 +151,18 @@ sup.fn a { text-decoration: none; }
 @media (min-width: 760px) { .tblock .tb-name { grid-column: auto; } }
 
 
+
+/* research questions under the title block */
+.rq { padding-block: 44px 56px; }
+.rq h2.label { margin: 0 0 18px; font-size: 12px; font-weight: 500; }
+.rq ol { list-style: none; margin: 0; padding: 0; counter-reset: q; display: grid; gap: 0 40px; }
+@media (min-width: 760px) { .rq ol { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1100px) { .rq ol { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.rq li { counter-increment: q; display: grid; gap: 6px; align-content: start; padding: 16px 0 18px; border-top: 1px solid var(--line); }
+.rq li::before { content: "Q" counter(q); font: 500 11.5px/1 var(--mono); letter-spacing: .08em; color: var(--violet); }
+.rq li b { font: 400 21px/1.25 var(--display); color: var(--ink); }
+.rq li span { font-size: 15px; line-height: 1.5; color: var(--ink-2); }
+
 /* A-01: the gap */
 .gap-chart { display: grid; gap: 22px; padding: 28px; border: 1px solid var(--line); border-radius: var(--r); background: var(--panel); }
 .bar-row { display: grid; gap: 8px; }
@@ -442,6 +454,18 @@ sup.fn a { text-decoration: none; }
       <div><dt>Free guides</dt><dd class="big num">7</dd></div>
       <div><dt>Languages</dt><dd>IT · ES · RO · EN · FR · DA</dd></div>
     </dl>
+
+    <div class="rq" aria-labelledby="h-rq">
+      <h2 id="h-rq" class="label">Questions I want to answer</h2>
+      <ol>
+        <li><b>Social fairness</b><span>Who gains and who loses when AI enters housing and work?</span></li>
+        <li><b>Pricing algorithms</b><span>How do algorithms that set rents and house prices affect households on ordinary salaries?</span></li>
+        <li><b>Implementation for those who need it the most</b><span>How can small firms, public bodies and households use AI, not only large companies?</span></li>
+        <li><b>Ethical implementation and good governance</b><span>Which rules, checks and responsibilities make the use of AI trustworthy?</span></li>
+        <li><b>Make findings traceable and quantifiable and most importantly shareable</b><span>How can every result keep its source and its numbers, in a form others can reuse?</span></li>
+        <li><b>How is AI distributed around socially challenged people and why is that?</b><span>Who has access to AI today, who doesn’t, and what explains the gap?</span></li>
+      </ol>
+    </div>
   </div>
 </section>
 
