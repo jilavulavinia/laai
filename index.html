@@ -183,12 +183,20 @@ sup.fn a { text-decoration: none; }
 .bring li b { font-weight: 600; font-size: 16.5px; }
 .bring li span { font-size: 15px; color: var(--ink-2); }
 /* consulting, folded away */
-.consult { margin-top: 48px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-.consult summary { cursor: pointer; padding: 18px 0; font: 500 14px/1.4 var(--mono); color: var(--ink-2); list-style: none; }
+.consult { margin-top: 48px; border: 1px solid var(--ink); border-radius: var(--r); background: var(--panel); }
+.consult summary { cursor: pointer; list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 22px 24px; }
 .consult summary::-webkit-details-marker { display: none; }
-.consult summary::before { content: "+ "; color: var(--violet); }
-.consult[open] summary::before { content: "− "; }
-.consult .work { margin-top: 8px; padding-bottom: 28px; }
+.consult summary:hover .c-btn { background: var(--ink); color: var(--sheet); }
+.c-text { display: grid; gap: 4px; min-width: 0; }
+.c-k { font: 500 11.5px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--violet); }
+.c-t { font: 400 24px/1.2 var(--display); color: var(--ink); }
+.c-s { font-size: 15px; color: var(--ink-2); }
+.c-btn { flex: none; display: inline-flex; align-items: center; min-height: 40px; padding: 0 18px; border: 1px solid var(--ink); border-radius: 999px; font: 500 14px/1 var(--body); color: var(--ink); transition: background .15s ease, color .15s ease; }
+.c-btn::after { content: "Show  +"; white-space: pre; }
+.consult[open] .c-btn::after { content: "Hide  −"; }
+.consult .work { margin: 0; padding: 8px 24px 28px; border-top: 1px solid var(--line); }
+.consult .who { margin: 0; padding: 0 24px 24px; }
+@media (max-width: 560px) { .consult summary { align-items: start; flex-direction: column; } }
 .btn-cv { background: var(--sheet); color: var(--ink); border-color: var(--sheet); }
 
 /* A-01: the gap */
@@ -837,7 +845,7 @@ sup.fn a { text-decoration: none; }
       </ul>
     </div>
     <details class="consult" id="work">
-      <summary>For construction firms: how a project with me works</summary>
+      <summary><span class="c-text"><span class="c-k">Consulting</span><span class="c-t">For construction firms: how a project with me works</span><span class="c-s">A free first session, the six steps of a project, and the three-week workflow audit.</span></span><span class="c-btn" aria-hidden="true"></span></summary>
     <div class="work">
       <div>
         <h3 class="serif" style="font-size:30px;line-height:1.15;margin-bottom:22px">How we’d work together</h3>
