@@ -134,7 +134,7 @@ sup.fn a { text-decoration: none; }
 .portrait figcaption { margin-top: 12px; font: 400 12px/1.5 var(--mono); color: var(--ink-3); letter-spacing: .04em; }
 .portrait figcaption b { color: var(--ink); font-weight: 500; }
 /* dimension line beside the portrait: a drawing convention */
-.dim { position: absolute; top: 0; bottom: 38px; right: -18px; width: 1px; background: var(--ink-3); }
+.dim { position: absolute; top: 0; bottom: 0; right: -18px; width: 1px; background: var(--ink-3); }
 .dim::before, .dim::after { content: ""; position: absolute; left: -4px; width: 9px; height: 1px; background: var(--ink-3); }
 .dim::before { top: 0; } .dim::after { bottom: 0; }
 @media (max-width: 899px) { .dim { display: none; } .portrait { max-width: 360px; } }
@@ -471,7 +471,6 @@ sup.fn a { text-decoration: none; }
       <figure class="portrait">
         <img src="assets/photo.webp" alt="Portrait of Lavinia Lorena Jilavu" width="720" height="1168" fetchpriority="high">
         <span class="dim" aria-hidden="true"></span>
-        <figcaption><b>Lavinia Lorena Jilavu</b> · BIM Expert<br>Málaga, Spain · worked across the Netherlands and Denmark</figcaption>
       </figure>
     </div>
 
